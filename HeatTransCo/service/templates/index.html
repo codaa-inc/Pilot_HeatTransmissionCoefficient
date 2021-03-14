@@ -25,15 +25,7 @@
 
     <!-- 열관류율 Json Dat Request -->
     <script>
-        function initLoad() {
-            return fetch('data/')
-                .then((response) => response.json)
-                .then((json) => json.items);
-        }
 
-        initLoad().then((items) => {
-            console.log(items);
-        })
     </script>
 
     <!-- 커스텀 함수 -->
@@ -110,17 +102,17 @@
                             <p>만족</p>
                         </div>
                     </div>
-                    <form>
+                    <form name="wallForm">
                         <div class="row">
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5" data-style="btn-outline-primary">
+                                    <select name="materialWallDirect" class="selectpicker form-control" data-size="5" data-style="btn-outline-primary">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
+                                    <select name="materialWallIndirect" class="selectpicker form-control" data-max-options="3"
                                             data-size="5" data-style="btn-outline-secondary" multiple>
                                     </select>
                                 </div>

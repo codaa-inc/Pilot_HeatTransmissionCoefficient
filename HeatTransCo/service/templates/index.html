@@ -3,7 +3,7 @@
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8">
-    <title>열관류율계산기</title>
+    <title>열관류율 계산기</title>
 
     <!-- Site favicon -->
     <link href="vendors/images/custom/favicon.ico" rel="icon" sizes="16x16" type="image/png">
@@ -46,21 +46,17 @@
         <div class="row" style="text-align : center;">
             <label style="display : inline-block;">지역구분</label>
             <div style="display : inline-block;">
-                <select class="selectpicker form-control" id="sido1" name="sido1" style="display : inline-block;"></select>
+                <select class="selectpicker form-control" id="sido1" name="sido1" style="display : inline-block;" ></select>
             </div>
             <div style="display : inline-block;">
-                <select class="selectpicker form-control" id="gugun1" name="gugun1" style="display : inline-block;">
-                    <option>중부1</option>
-                    <option>중부2</option>
-                    <option>남부</option>
-                    <option>제주</option>
+                <select id="locale" class="selectpicker form-control" style="display : inline-block;" onchange="onchangeLocale(this.value)">
+                    <option selected disabled hidden>지역구분</option>
                 </select>
             </div>
             <label style="display : inline-block;">용도구분</label>
             <div style="display : inline-block">
-                <select class="selectpicker form-control" id="use" name="use">
-                    <option>주거</option>
-                    <option>비주거</option>
+                <select id="use" class="selectpicker form-control" onchange="onchangeUse(this.value)">
+                    <option selected disabled hidden>용도구분</option>
                 </select>
             </div>
         </div>
@@ -72,10 +68,16 @@
             <div class="page-header" style="font-size : 0.8rem;">
                 <div class="row">
                     <p class="mb-5">* 기준 = 에너지절약설계기준
-                        <br>* 지자체 = 지역별 녹색건축설계기준 고려한 최소 기준 (500m2 이상일때만 해당)
+                        <br>*  지역별 녹색건축설계기준 고려한 최소 기준 (500m2 이상일때만 해당)
                         <br>* 표면 열전달 저항값 자동 계산
                         <br>* 창호열관류율은 제조사의 시험성적서 값을 적용 합니다. 선택한 창호의 시험성적서는 다음을 참고
                     </p>
+                    <div style="display : inline-block; margin-left: auto;">
+                    <select class="selectpicker form-control">
+                        <option>타겟 EPI 65점</option>
+                        <option>타겟 EPI 74점</option>
+                    </select>
+            </div>
                 </div>
             </div>
             <!-- Start of form -->
@@ -87,112 +89,126 @@
                             <p class="text h5">외벽(직접)</p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>열관류율</p>
+                            <p id="wall-direct-trans"></p>
                         </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>만족</p>
+                        <div id="wall-direct-result" class="col-md-2 col-sm-12" style="display : inline-block;">
+                            <p></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <h5 class="text h5">외벽(간접)</h5>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>열관류율</p>
+                            <p id="wall-indirect-trans"></p>
                         </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p>만족</p>
+                        <div id="wall-indirect-result" class="col-md-1 col-sm-12" style="display : inline-block;">
+                            <p></p>
                         </div>
                     </div>
-                    <form name="wallForm">
+                    <form id="wallForm">
                         <div class="row">
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select name="materialWallDirect" class="selectpicker form-control" data-size="5" data-style="btn-outline-primary">
+                                    <select id="wall-direct-kind-1" class="selectpicker form-control" data-size="5" data-style="btn-outline-primary">
+                                        <option selected disabled hidden>구조 재료</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select name="materialWallIndirect" class="selectpicker form-control" data-max-options="3"
+                                    <select id="wall-direct-thick-1" class="selectpicker form-control" data-max-options="3"
                                             data-size="5" data-style="btn-outline-secondary" multiple>
+                                        <option selected disabled hidden>구조 두께</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p>지자체 1</p>
+                                <p id="wall-direct-locale"></p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
+                                    <select id="wall-indirect-kind-1" class="selectpicker form-control" data-size="5"
                                             data-style="btn-outline-primary">
+                                        <option selected disabled hidden>구조 재료</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
+                                    <select id="wall-indirect-thick-1" class="selectpicker form-control" data-max-options="3"
                                             data-size="5" data-style="btn-outline-secondary" multiple>
+                                        <option selected disabled hidden>구조 두께</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p>지자체 2</p>
+                                <p id="wall-indirect-locale"></p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="wall-direct-kind-2" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>단열재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-direct-thick-2" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>단열재 두께</option>
+                                        <option value = "100">100</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-indirect-kind-2" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>단열재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12"></div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-indirect-thick-2" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>단열재 두께</option>
+                                        <option value = "100">100</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
+                                    <select id="wall-direct-kind-3" class="selectpicker form-control" data-size="5"
                                             data-style="btn-outline-primary">
+                                        <option selected disabled hidden>외부마감재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-direct-thick-3" class="selectpicker form-control" data-size="5"
+                                            data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>외부마감재 두께</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select id="wall-indirect-kind-3" class="selectpicker form-control" data-size="5"
+                                            data-style="btn-outline-primary">
+                                        <option selected disabled hidden>외부마감재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select id="wall-indirect-thick-3" class="selectpicker form-control"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>외부마감재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -209,42 +225,44 @@
                             <p class="text h5">창호(직접)</p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>열관류율</p>
+                            <p id="win-direct-trans"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>만족</p>
+                            <p id="win-direct-result"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <h5 class="text h5">창호(간접)</h5>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>열관류율</p>
+                            <p id="win-indirect-trans"></p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p>만족</p>
+                            <p id="win-indirect-result"></p>
                         </div>
                     </div>
                     <form>
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="win-direct-kind-1" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>창호 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p> 지자체 3</p>
+                                <p id="win-direct-locale"> </p>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <select class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="win-indirect-kind-1" class="selectpicker form-control" data-max-options="3"
+                                            data-size="5" data-style="btn-outline-secondary">
+                                        <option selected disabled hidden>창호 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p> 지자체 4</p>
+                                <p id="win-indirect-locale"> </p>
                             </div>
                         </div>
                     </form>
@@ -258,22 +276,23 @@
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <div class="form-group">
-                                <select class="selectpicker form-control" data-max-options="3"
+                                <select id="wall-min-width" class="selectpicker form-control" data-max-options="3"
                                         data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <option selected disabled hidden>면적비</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>외벽평균열관류율</p>
+                            <p id="wall-min-trans">외벽평균열관류율</p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p>지자체 5</p>
+                            <p id="wall-min-locale"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p>배점 EPI</p>
+                            <p id="wall-min-point">배점 EPI</p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p>만족</p>
+                            <p id="wall-min-result">만족</p>
                         </div>
                     </div>
                 </div>

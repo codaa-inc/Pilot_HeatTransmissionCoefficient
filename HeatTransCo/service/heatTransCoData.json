@@ -1,4 +1,16 @@
-[{"materialThermalConductivity" : [
+[{"localeCode" : [
+	{"localeCode":0,"locale":"중부1"},
+	{"localeCode":1,"locale":"중부2"},
+	{"localeCode":2,"locale":"중부2(서울,경기)"},
+	{"localeCode":3,"locale":"남부"},
+	{"localeCode":4,"locale":"남부(부산,광주,울산)"},
+	{"localeCode":5,"locale":"제주"}
+]},
+{"useCode" : [
+	{"useCode":0,"use":"주거"},
+	{"useCode":1,"use":"비주거"}
+]},
+{"materialThermalConductivity" : [
 	{"id":0,"material":"비드법 보온판1종 1호","value":0.036 },
 	{"id":1,"material":"비드법 보온판1종 2호","value":0.037 },
 	{"id":2,"material":"비드법 보온판1종 3호","value":0.040 },
@@ -91,6 +103,20 @@
 	{"id":6,"useCode":1,"localeCode":2,"value":[0.320,0.450,0.180,0.260,0.220,0.250,0.310,0.350]},
 	{"id":7,"useCode":1,"localeCode":3,"value":[0.410,0.560,0.250,0.350,0.350,0.330,0.410,0.470]}
 ]},
+{"MeanHeatTransmissionCoefficient" : [
+	{"localeCode":0,"useCode":0,"point":0.6,"value":[0.45,0.15,0.18]},
+	{"localeCode":1,"useCode":0,"point":0.6,"value":[0.50,0.15,0.21]},
+	{"localeCode":2,"useCode":0,"point":0.8,"value":[0.42,0.11,0.15]},
+	{"localeCode":3,"useCode":0,"point":0.6,"value":[0.61,0.18,0.26]},
+	{"localeCode":4,"useCode":0,"point":0.8,"value":[0.51,0.14,0.19]},
+	{"localeCode":5,"useCode":0,"point":0,"value":[0.25,0.21,0.28]},
+	{"localeCode":0,"useCode":1,"point":0.6,"value":[0.58,0.15,0.18]},
+	{"localeCode":1,"useCode":1,"point":0.6,"value":[0.74,0.15,0.21]},
+	{"localeCode":2,"useCode":1,"point":0.8,"value":[0.62,0.11,0.15]},
+	{"localeCode":3,"useCode":1,"point":0.6,"value":[0.91,0.18,0.26]},
+	{"localeCode":4,"useCode":1,"point":0.8,"value":[0.76,0.14,0.19]},
+	{"localeCode":5,"useCode":1,"point":0,"value":[0.25,0.21,0.28]}
+]},
 {"partCode" : [
 	{"partCode":0,"part":"외벽(직접)"},
 	{"partCode":1,"part":"외벽(간접)"},
@@ -102,14 +128,5 @@
 	{"partCode":7,"part":"바닥(간접-비난방)"},
 	{"partCode":8,"part":"창호(직접)"},
 	{"partCode":9,"part":"창호(간접)"}
-]},
-{"useCode" : [
-	{"UseCode":0,"use":"주거"},
-	{"UseCode":1,"use":"비주거"}
-]},
-{"localeCode" : [
-	{"localeCode":0,"locale":"중부1"},
-	{"localeCode":1,"locale":"중부2"},
-	{"localeCode":2,"locale":"남부"},
-	{"localeCode":3,"locale":"제주"}
-]}]
+]}
+]

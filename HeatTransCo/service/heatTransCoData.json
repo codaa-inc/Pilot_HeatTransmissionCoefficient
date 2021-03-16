@@ -71,6 +71,17 @@
 	{"id":57,"material":"PF보드","value":0.020 },
 	{"id":58,"material":"경질우레탄폼2종2호","value":0.020 }
 ]},
+{"structureThermalConductivity" : [
+	{"id":0,"structure":"콘크리트 구조","value":1.6},
+	{"id":1,"structure":"시멘트벽돌 구조","value":0.6},
+	{"id":2,"structure":"철골 구조","value":0},
+	{"id":3,"structure":"목 구조","value":0},
+	{"id":4,"structure":"경량 콘크리트블록","value":0.7},
+	{"id":5,"structure":"중량 콘크리트블록","value":1},
+	{"id":6,"structure":"ALC 350","value":0.09},
+	{"id":7,"structure":"ALC 400","value":0.1},
+	{"id":8,"structure":"ALC 500","value":0.12}
+]},
 {"windowThermalConductivity" : [
 	{"id":0,"window":"PVC T22+T22 로이공기 사중 미서기창 (KCC)","value":1.000},
 	{"id":1,"window":"PVC T22+T22 일반공기 사중 미서기창 (KCC)","value":1.310},
@@ -116,6 +127,16 @@
 	{"localeCode":3,"useCode":1,"point":0.6,"value":[0.91,0.18,0.26]},
 	{"localeCode":4,"useCode":1,"point":0.8,"value":[0.76,0.14,0.19]},
 	{"localeCode":5,"useCode":1,"point":0,"value":[0.25,0.21,0.28]}
+]},
+{"externalMaterialThermalConductivity" : [
+	{"id":0,"exmaterial":"마감재 미고려","value":0},
+	{"id":1,"exmaterial":" 시멘트 몰탈","value":1.4},
+	{"id":2,"exmaterial":"점토벽돌 0.5B","value":0.66},
+	{"id":3,"exmaterial":"점토벽돌 1.0B","value":0.66},
+	{"id":4,"exmaterial":"점토벽돌 1.5B","value":0.66},
+	{"id":5,"exmaterial":"점토벽돌 2.0B","value":0.66},
+	{"id":6,"exmaterial":"자기질타일","value":1.8},
+	{"id":7,"exmaterial":"도기질타일","value":1.2}
 ]},
 {"partCode" : [
 	{"partCode":0,"part":"외벽(직접)"},

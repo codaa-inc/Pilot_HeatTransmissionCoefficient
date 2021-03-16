@@ -82,20 +82,21 @@
             </div>
             <!-- Start of form -->
             <div class="pd-20 card-box mb-30">
-                <!-- Start of 외벽 from -->
+                <!-- Start of 외벽 form -->
                 <div>
                     <div class="clearfix" style="background-color : #7FB3D5;">
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p class="text h5">외벽(직접)</p>
+                            <p class="text h5" style="display: inline-block;">외벽(직접)</p>
+                            <input id="wall-direct-width" style="width: 60px;" placeholder="75㎡" type="number">
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="wall-direct-trans"></p>
                         </div>
                         <div id="wall-direct-result" class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <h5 class="text h5">외벽(간접)</h5>
+                            <p class="text h5" style="display: inline-block;">외벽(간접)</p>
+                            <input id="wall-indirect-width" style="width: 60px;" placeholder="75㎡" type="number">
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="wall-indirect-trans"></p>
@@ -104,19 +105,20 @@
                             <p></p>
                         </div>
                     </div>
-                    <form id="wallForm">
+                    <form name="wall">
                         <div class="row">
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-kind-1" class="selectpicker form-control" data-size="5" data-style="btn-outline-primary">
+                                    <select id="wall-direct-kind-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>구조 재료</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-thick-1" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-direct-thick-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>구조 두께</option>
                                     </select>
                                 </div>
@@ -126,16 +128,16 @@
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-kind-1" class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="wall-indirect-kind-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>구조 재료</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-thick-1" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary" multiple>
+                                    <select id="wall-indirect-thick-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>구조 두께</option>
                                     </select>
                                 </div>
@@ -145,52 +147,50 @@
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-kind-2" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="wall-direct-kind-2" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>단열재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-thick-2" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="wall-direct-thick-2" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>단열재 두께</option>
-                                        <option value = "100">100</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-kind-2" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="wall-indirect-kind-2" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>단열재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-thick-2" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="wall-indirect-thick-2" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>단열재 두께</option>
-                                        <option value = "100">100</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-kind-3" class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="wall-direct-kind-3" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>외부마감재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-direct-thick-3" class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-secondary">
+                                    <select id="wall-direct-thick-3" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>외부마감재 두께</option>
                                     </select>
                                 </div>
@@ -198,16 +198,16 @@
                             <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-kind-3" class="selectpicker form-control" data-size="5"
-                                            data-style="btn-outline-primary">
+                                    <select id="wall-indirect-kind-3" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>외부마감재 종류</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
-                                    <select id="wall-indirect-thick-3" class="selectpicker form-control"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="wall-indirect-thick-3" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>외부마감재 두께</option>
                                     </select>
                                 </div>
@@ -222,7 +222,8 @@
                 <div>
                     <div class="clearfix" style="background-color : #7DCEA0;">
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p class="text h5">창호(직접)</p>
+                            <p class="text h5" style="display: inline-block;">창호(직접)</p>
+                            <input id="win-direct-width" style="width: 60px;" placeholder="25㎡" type="number">
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="win-direct-trans"></p>
@@ -231,7 +232,8 @@
                             <p id="win-direct-result"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <h5 class="text h5">창호(간접)</h5>
+                            <h5 class="text h5" style="display: inline-block;">창호(간접)</h5>
+                            <input id="win-indirect-width" style="width: 60px;" placeholder="25㎡" type="number">
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="win-indirect-trans"></p>
@@ -240,12 +242,12 @@
                             <p id="win-indirect-result"></p>
                         </div>
                     </div>
-                    <form>
+                    <form name="win">
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <select id="win-direct-kind-1" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="win-direct-kind-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>창호 종류</option>
                                     </select>
                                 </div>
@@ -255,8 +257,8 @@
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <select id="win-indirect-kind-1" class="selectpicker form-control" data-max-options="3"
-                                            data-size="5" data-style="btn-outline-secondary">
+                                    <select id="win-indirect-kind-1" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
                                         <option selected disabled hidden>창호 종류</option>
                                     </select>
                                 </div>
@@ -276,9 +278,9 @@
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <div class="form-group">
-                                <select id="wall-min-width" class="selectpicker form-control" data-max-options="3"
-                                        data-size="5" data-style="btn-outline-secondary" multiple>
-                                    <option selected disabled hidden>면적비</option>
+                                <select id="wall-min-width" class="selectpicker form-control" data-max-options="3" data-size="5"
+                                            data-style="btn-outline-secondary" onchange="setHeatTransCo(this.id)">
+                                    <option selected disabled hidden>창면적비</option>
                                 </select>
                             </div>
                         </div>

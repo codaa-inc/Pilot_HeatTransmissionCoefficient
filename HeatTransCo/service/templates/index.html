@@ -29,12 +29,11 @@
     </script>
 
     <!-- 커스텀 함수 -->
-    <script src="vendors/scripts/custom/calculator.js"></script>
-    <script src="vendors/scripts/custom/locale.js"></script>
+    <script src="vendors/scripts/custom/script.js"></script>
 </head>
 <body>
-<div class="header">
-    <div class="header-left">
+<div class="header" style="position : relative; margin-right: -70px; width: 100%;">
+    <div class="header-left" style="width: 35%">
         <div class="menu-icon dw dw-menu"></div>
         <div class="col-md-6 col-sm-12">
             <div class="title">
@@ -42,20 +41,23 @@
             </div>
         </div>
     </div>
-    <div class="header-right">
+    <div class="header-right" style="width: 65%">
         <div class="row" style= "margin: auto;">
             <label style="display : inline-block; margin-top: 10px;">지역구분</label>
             <div style="display : inline-block;">
-                <select class="selectpicker form-control" id="sido1" name="sido1" style="display : inline-block;" ></select>
+                <select class="custom-select" id="sido1" name="sido1"></select>
             </div>
             <div style="display : inline-block;">
-                <select id="locale" class="selectpicker form-control" style="display : inline-block;" onchange="onchangeLocale(this.value)">
+                <select class="custom-select" id="gugun1" name="gugun1" style="display: none"></select>
+            </div>
+            <div style="display : inline-block;">
+                <select id="locale" class="custom-select" style="display : inline-block;" onchange="onchangeLocale(this.value)" disabled>
                     <option selected disabled hidden>지역구분</option>
                 </select>
             </div>
             <label style="display : inline-block; margin-left: 10px; margin-top: 10px;">용도구분</label>
             <div style="display : inline-block">
-                <select id="use" class="selectpicker form-control" onchange="onchangeUse(this.value)">
+                <select id="use" class="custom-select" onchange="onchangeUse(this.value)">
                     <option selected disabled hidden>용도구분</option>
                 </select>
             </div>
@@ -64,10 +66,10 @@
         </div>
     </div>
 </div>
-<div class="main-container">
-    <div class="pd-ltr-20 xs-pd-20-10">
+<div class="main-container" style="padding: 0px;">
+    <div class="pd-ltr-20 xs-pd-20-10" style="padding: 10px;">
         <div class="min-height-200px">
-            <div class="page-header" style="font-size : 0.8rem;">
+            <div class="page-header" style="font-size : 0.8rem; margin-bottom: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <div class="row">
                     <p class="mb-5">* 기준 = 에너지절약설계기준
                         <br>*  지역별 녹색건축설계기준 고려한 최소 기준 (500m2 이상일때만 해당)
@@ -95,7 +97,8 @@
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="wall-direct-trans"></p>
                         </div>
-                        <div id="wall-direct-result" class="col-md-2 col-sm-12" style="display : inline-block;">
+                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
+                            <p id="wall-direct-result" style="font-weight: bold;"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p class="text h5" style="display: inline-block;">외벽(간접)</p>
@@ -105,8 +108,8 @@
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <p id="wall-indirect-trans"></p>
                         </div>
-                        <div id="wall-indirect-result" class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p></p>
+                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
+                            <p id="wall-indirect-result" style="font-weight: bold;"></p>
                         </div>
                     </div>
                     <form name="wall">
@@ -234,7 +237,7 @@
                             <p id="win-direct-trans"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="win-direct-result"></p>
+                            <p id="win-direct-result" style="font-weight: bold;"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
                             <h5 class="text h5" style="display: inline-block;">창호(간접)</h5>
@@ -245,7 +248,7 @@
                             <p id="win-indirect-trans"></p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="win-indirect-result"></p>
+                            <p id="win-indirect-result" style="font-weight: bold;"></p>
                         </div>
                     </div>
                     <form name="win">
@@ -258,7 +261,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="win-direct-locale"> </p>
+                                <p id="win-direct-locale"></p>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
@@ -286,16 +289,16 @@
                             </div>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="wall-min-trans"></p>
+                            <p id="wall-avg-trans"></p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="wall-min-locale"></p>
+                            <p id="wall-avg-locale"></p>
                         </div>
                         <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="wall-min-point"></p>
+                            <p id="wall-avg-point"></p>
                         </div>
                         <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="wall-min-result"></p>
+                            <p id="wall-avg-result" style="font-weight: bold;"></p>
                         </div>
                     </div>
                 </div>

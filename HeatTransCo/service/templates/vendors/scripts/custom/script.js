@@ -4,7 +4,8 @@
 let data  = null;      // 전체 데이터
 let localeCode = null; // 지역코드
 let useCode = null;    // 용도코드
-let heatTransCoArr = new Array();   // 열관류율기준
+let heatTransCoArr = new Array();       // 열관류율기준
+let avgHeatTransCoArr = new Array();    // 평균열관류율기준
 
 /**
 * 페이지 로딩 시 JSON 데이터를 호출하는 함수
@@ -125,8 +126,10 @@ function initSet(items) {
  * */
 function onclickSearch() {
     if (localeCode != null &&  useCode != null) {
-        setInitValue();             //초기데이터 셋팅
         setHeatTransCoPointEpi();   //열관류율기준값, 배점, EPI 기준값 셋팅
+        setInitValue();             //초기데이터 셋팅
+
+
     } else {
         alert("지역과 용도를 선택하세요.");
     }
@@ -136,18 +139,18 @@ function onclickSearch() {
 * 초기 데이터 셋팅 함수
 */
 function setInitValue() {
-    $("#wall-direct-kind-1 option:eq(1)").attr("selected", "selected");
-    $("#wall-indirect-kind-1 option:eq(1)").attr("selected", "selected");
-    $('#wall-direct-thick-1 option:eq(11)').attr("selected", "selected");
-    $('#wall-indirect-thick-1 option:eq(11)').attr("selected", "selected");
-    $("#wall-direct-kind-2 option:eq(58)").attr("selected", "selected");
-    $("#wall-indirect-kind-2 option:eq(58)").attr("selected", "selected");
-    $('#wall-direct-thick-2 option:eq(11)').attr("selected", "selected");
-    $('#wall-indirect-thick-2 option:eq(11)').attr("selected", "selected");
-    $("#wall-direct-kind-3 option:eq(1)").attr("selected", "selected");
-    $("#wall-indirect-kind-3 option:eq(1)").attr("selected", "selected");
-    $('#win-direct-kind-1 option:eq(1)').attr("selected", "selected");
-    $('#win-indirect-kind-1 option:eq(1)').attr("selected", "selected");
+    $("#wall-direct-kind-1 option:eq(1)").prop("selected", "selected");
+    $("#wall-indirect-kind-1 option:eq(1)").prop("selected", "selected");
+    $('#wall-direct-thick-1 option:eq(11)').prop("selected", "selected");
+    $('#wall-indirect-thick-1 option:eq(11)').prop("selected", "selected");
+    $("#wall-direct-kind-2 option:eq(58)").prop("selected", "selected");
+    $("#wall-indirect-kind-2 option:eq(58)").prop("selected", "selected");
+    $('#wall-direct-thick-2 option:eq(11)').prop("selected", "selected");
+    $('#wall-indirect-thick-2 option:eq(11)').prop("selected", "selected");
+    $("#wall-direct-kind-3 option:eq(1)").prop("selected", "selected");
+    $("#wall-indirect-kind-3 option:eq(1)").prop("selected", "selected");
+    $('#win-direct-kind-1 option:eq(1)').prop("selected", "selected");
+    $('#win-indirect-kind-1 option:eq(1)').prop("selected", "selected");
 
     
     const arr = ['wall-direct', 'wall-indirect', 'win-direct-kind-1', 'win-indirect-kind-1'];
@@ -163,7 +166,6 @@ function setInitValue() {
  * 새로고침 클릭 이벤트
  * */
 function onclickRefresh() {
-
     // 초기데이터 셋팅
     setInitValue();
 };
@@ -178,18 +180,11 @@ function onchangeCombobox(id) {
     // 구조재료 철골, 목 선택시 두께 selectbox toggle
     if(sel.id == "wall-direct-kind-1" || sel.id == "wall-indirect-kind-1") {
         if (sel.value == "0") {
-            thick.value = "0";
             $('#' + thick.id).val(0);
-            /**
-             * TODO
-             * */
-            //thick.setAttribute("disabled", "true");
+            $('#' + thick.id).prop("disabled", true);
         } else {
-            console.log("false");
-            //$('#' + thick.id).attr('disabled', 'true');
-            //thick.setAttribute("disabled", "false");
+            $('#' + thick.id).prop("disabled", false);
         }
-        console.log("thick.value : ", thick.value);
 
     // 외부마감재 선택시 두께 자동셋팅
     } else if (sel.id == "wall-direct-kind-3" || sel.id == "wall-indirect-kind-3") {
@@ -217,7 +212,6 @@ function onchangeCombobox(id) {
                 break;
         }
     }
-
     // 열관류율 셋팅
     setHeatTransCo(id);
 };
@@ -248,7 +242,7 @@ function setHeatTransCo(id) {
     }
 
     // 평균열관류율 셋팅
-    setMinHeatTransCo(id);
+    setAvgHeatTransCo(id);
 }
 
 /**
@@ -261,10 +255,10 @@ function setHeatTransCoWin(id) {
 }
 
 /**
-*  열관류율 기준값,지자체 기준값,배점을 셋팅하는 함수
+*  지역별 열관류율 기준값, 지자체별 평균열관류율 기준값,배점을 셋팅하는 함수
 */
 function setHeatTransCoPointEpi() {;
-    // 열관류율 기준값을 전역변수에 담는다.
+    // 지역별 열관류율 기준값을 전역변수에 담는다.
     const arr = data[6].heatTransmissionCoefficient;
     for(const i in arr) {
         if(useCode == arr[i]['useCode'] && localeCode == arr[i]['localeCode']) {
@@ -272,28 +266,32 @@ function setHeatTransCoPointEpi() {;
             break;
         }
     }
-
-    // 지자체 기준값, 배점
+    // 지역별 열관류율 기준값 셋팅
+    const targetArr = ['wall-direct-locale', 'wall-indirect-locale', 'win-direct-locale', 'win-indirect-locale'];
+    for(let i in targetArr) {
+        document.getElementById(targetArr[i]).innerHTML = "기준 "
+            + (heatTransCoArr[i]).toFixed(3) + " 이하"
+            //+ "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>";
+    }
+    // 지자체별 평균열관류율 기준값을 전역변수에 담는다.
     const meanArr = data[7].MeanHeatTransmissionCoefficient;
-    const epi = document.getElementById('wall-min-locale');
-    const point = document.getElementById('wall-min-point');
+    for(const i in meanArr) {
+        if(useCode == arr[i]['useCode'] && localeCode == arr[i]['localeCode']) {
+            avgHeatTransCoArr = meanArr[i]['value'];
+            break;
+        }
+    }
+    // 지자체별 평균열관류율, 배점을 셋팅
+    const epi = document.getElementById('wall-avg-locale');
+    const point = document.getElementById('wall-avg-point');
     for(const i in meanArr) {
         if(useCode == meanArr[i]['useCode'] && localeCode == meanArr[i]['localeCode']) {
-            epi.innerHTML = "지자체\n" + meanArr[i]['value'][0]
-                            + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
+            epi.innerText = "지자체\n" + meanArr[i]['value'][0] + "\n이하"
+                           // + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
             point.innerText = "외벽배점\n" + meanArr[i]['point'] + "점";
             break;
         }
     }
-};
-
-/**
-* 지역구분 변경 이벤트
-* Param : 지역구분 콤보박스에서 선택된 값
-*/
-function onchangeLocale(sel) {
-    //전역변수 지역코드 셋팅
-    localeCode = sel;
 };
 
 /**
@@ -313,7 +311,7 @@ function onchangeWidth(id) {
     // 면적비 셋팅
     setWidthRatio(id);
     // 평균열관류율 셋팅
-    setMinHeatTransCo(id);
+    setAvgHeatTransCo(id);
 };
 
 /**
@@ -360,16 +358,16 @@ function calcWidthRatio(target, arr) {
 * 평균열관류율을 셋팅하는 함수
 * Param : 변경이 발생한 면적의 ID
 */
-function setMinHeatTransCo(id) {
+function setAvgHeatTransCo(id) {
     const inputId = id.split("-")[0];
     let outputId = "";
     let arr = new Array();
-    let minTrans = 0;
+    let avgTrans = 0;
     
     if (inputId == "wall" || inputId == "win") {      // 외벽평균열관류율
         arr = ["wall-direct-width", "wall-direct-trans", "wall-indirect-width", "wall-indirect-trans",
                "win-direct-width", "win-direct-trans", "win-indirect-width", "win-direct-trans" ]
-        outputId = 'wall-min-trans';
+        outputId = 'wall-avg-trans';
         for(const i in arr) {
             if (i % 2 == 1) {   //열관류율값 추출
                 arr[i] = Number(setValidNum((document.getElementById(arr[i]).innerText).replace("열관류율 ", "")));
@@ -377,7 +375,7 @@ function setMinHeatTransCo(id) {
                 arr[i] = Number(setValidNum(document.getElementById(arr[i]).value));
             }
         }
-        minTrans = calcMinHeatTransCo(inputId, arr); // 평균열관류율 연산
+        avgTrans = calcAvgHeatTransCo(inputId, arr); // 평균열관류율 연산
 
     } else if (inputId == "roof") {                  // 지붕평균열관류율
 
@@ -387,31 +385,63 @@ function setMinHeatTransCo(id) {
 
     }
 
-    if (minTrans > 0) {
-        document.getElementById(outputId).innerText = "외벽평균\n열관류율\n" + minTrans;
+    if (avgTrans > 0) {
+        document.getElementById(outputId).innerText = "외벽평균\n열관류율\n" + avgTrans;
     }
 
     // 열관류율 검토결과 출력
     setSatisfyResult();
+    // 평균열관류율 검토결과 출력
+    setSatisfyAvgResult();
 };
 
-// 열관류율 검토결과를 셋팅하는 함수
+/**
+ *열관류율 검토결과를 셋팅하는 함수
+ * */
 function setSatisfyResult(){
-    const isSatisfied = function () {
-
-
+    // 검토결과를 출력할 p태그 ID
+    const resultArr = ['wall-direct-result', 'wall-indirect-result', 'win-direct-result', 'win-indirect-result'];
+    // 검토대상인 열관류율
+    const transArr = ['wall-direct-trans', 'wall-indirect-trans', 'win-direct-trans', 'win-indirect-trans'];
+    for (let i in transArr) {
+        const trans = (document.getElementById(transArr[i]).innerText).replace("열관류율 ", "");
+        if (Number(trans) <= Number(heatTransCoArr[i])) {
+            document.getElementById(resultArr[i]).innerText = "만족";
+            document.getElementById(resultArr[i]).style.color = "#0D47A1";
+        } else {
+            document.getElementById(resultArr[i]).innerText = "불만족";
+            document.getElementById(resultArr[i]).style.color = "#C62828";
+        }
     }
-
 };
 
-
+/**
+ * 평균열관류율 검토결과를 셋팅하는 함수
+ * */
+function setSatisfyAvgResult(){
+    // 검토결과를 출력할 p태그 ID
+    const resultArr = ['wall-avg-result'];
+    // 검토대상인 열관류율
+    const transArr = ['wall-avg-trans'];
+    for (let i in transArr) {
+        const trans = ((document.getElementById(transArr[i]).innerText)
+            .replace("외벽평균", "")).replace("열관류율", "");
+        if (Number(trans) <= Number(avgHeatTransCoArr[i])) {
+            document.getElementById(resultArr[i]).innerText = "만족";
+            document.getElementById(resultArr[i]).style.color = "#0D47A1";
+        } else {
+            document.getElementById(resultArr[i]).innerText = "불만족";
+            document.getElementById(resultArr[i]).style.color = "#C62828";
+        }
+    }
+};
 
 /**
 * 평균열관류율을 연산하는 함수
 * Param : 부위구분, number array
 * Retruen : 평균열관류율
 */
-function calcMinHeatTransCo(target, arr) {
+function calcAvgHeatTransCo(target, arr) {
     if (target == "wall" || target == "win") {      // 외벽평균열관류율
         return (((arr[0] * arr[1] + arr[4] * arr[5]) + ((arr[2] * arr[3] + arr[6] * arr[7]) * 0.7))
                / (arr[0] + arr[2] + arr[4] + arr[6])).toFixed(3);
@@ -474,4 +504,108 @@ function setValidNum(number) {
     } else {
         return 0;
     }
+};
+
+
+/***************************************************************************
+  지역선택 콤보 셋팅 영역
+ ***************************************************************************/
+
+$('document').ready(function () {
+    var area0 = ["서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시", "세종특별자치시", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"];
+    var area1 = ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
+    var area2 = ["계양구", "남구", "남동구", "동구", "부평구", "서구", "연수구", "중구", "강화군", "옹진군"];
+    var area3 = ["대덕구", "동구", "서구", "유성구", "중구"];
+    var area4 = ["광산구", "남구", "동구", "북구", "서구"];
+    var area5 = ["남구", "달서구", "동구", "북구", "서구", "수성구", "중구", "달성군"];
+    var area6 = ["남구", "동구", "북구", "중구", "울주군"];
+    var area7 = ["강서구", "금정구", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구", "기장군"];
+    var area8 = ["고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시", "가평군", "양평군", "여주군", "연천군"];
+    var area9 = ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시", "고성군", "양구군", "양양군", "영월군", "인제군", "정선군", "철원군", "평창군", "홍천군", "화천군", "횡성군"];
+    var area10 = ["제천시", "청주시", "충주시", "괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "증평군", "진천군", "청원군"];
+    var area11 = ["계룡시", "공주시", "논산시", "보령시", "서산시", "아산시", "천안시", "금산군", "당진군", "부여군", "서천군", "연기군", "예산군", "청양군", "태안군", "홍성군"];
+    var area12 = ["군산시", "김제시", "남원시", "익산시", "전주시", "정읍시", "고창군", "무주군", "부안군", "순창군", "완주군", "임실군", "장수군", "진안군"];
+    var area13 = ["광양시", "나주시", "목포시", "순천시", "여수시", "강진군", "고흥군", "곡성군", "구례군", "담양군", "무안군", "보성군", "신안군", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"];
+    var area14 = ["경산시", "경주시", "구미시", "김천시", "문경시", "상주시", "안동시", "영주시", "영천시", "포항시", "고령군", "군위군", "봉화군", "성주군", "영덕군", "영양군", "예천군", "울릉군", "울진군", "의성군", "청도군", "청송군", "칠곡군"];
+    var area15 = ["거제시", "김해시", "마산시", "밀양시", "사천시", "양산시", "진주시", "진해시", "창원시", "통영시", "거창군", "고성군", "남해군", "산청군", "의령군", "창녕군", "하동군", "함안군", "함양군", "합천군"];
+    var area16 = ["서귀포시", "제주시", "남제주군", "북제주군"];
+
+    // 시/도 선택 박스 초기화
+    $("select[name^=sido]").each(function () {
+        $selsido = $(this);
+        $selsido.append("<option selected disabled hidden>시/도 선택</option>");
+        $.each(eval(area0), function () {
+            $selsido.append("<option value='" + this + "'>" + this + "</option>");
+        });
+    });
+
+    // 시/도 선택시 구/군 설정
+    $("select[name^=sido]").change(function () {
+        var idx = $("option", $(this)).index($("option:selected", $(this)));
+        var area = "area" + Number(idx - 1);    // 선택지역의 구군 Array
+        var $gugun = $("#gugun1");                    // 선택영역 군구 객체
+        // 2 Depth
+        if (idx == 10 || idx == 11 || idx == 15 || idx == 16) {
+            $gugun.children('option:not(:first)').remove();     // 구군 콤보박스 초기화
+            $gugun.css("display", "");                    // 구군 콤보박스 toggle
+            $gugun.append("<option value='0' selected disabled hidden>구/군 선택</option>");
+            $.each(eval(area), function () {
+                $gugun.append("<option value='" + this + "'>" + this + "</option>");
+            });
+        // 1 Depth
+        } else {
+            $gugun.css("display", "none");  // 구군 콤보박스 toggle
+            setLocaleCode(idx);
+        }
+    });
+
+    // 구/군 선택시 설정
+    $("#gugun1").change(function () {
+        var sido = $("option", $('#sido1')).index($("option:selected", $('#sido1')));
+        var gugun = $("#gugun1 option:checked").text();
+        setLocaleCode(sido, gugun);
+    });
+});
+
+/**
+ * 지역코드를 셋팅하는 함수
+ * Param : 선택된 시/도 idex, 선택된 구/군 text
+ * */
+function setLocaleCode(sido, gugun) {
+    // 1 Depth
+    if (gugun == undefined) {
+        // 중부2 : 인천,대전,세종,충남,전북
+        if (sido == 2 || sido == 3 || sido == 8 || sido == 12 || sido == 13) {
+            localeCode = 1;
+        // 중부2(서울,경기) : 서울, 경기
+        } else if (sido == 1 || sido == 9) {
+            localeCode = 2;
+        // 남부 : 대구, 전남
+        } else if (sido == 5 || sido == 14) {
+            localeCode = 3;
+        // 남부(부산,광주,울산)
+        } else if (sido == 4 || sido == 6 || sido == 7) {
+            localeCode = 4;
+        // 제주
+        } else if (sido == 17) {
+            localeCode = 5;
+        }
+    // 2 Depth
+    } else {
+        const gangwon = ["고성군", "속초시", "양양군", "강릉시", "동해시", "삼척시"];
+        const chungbuk = ["제천"];
+        const gyungbuk = ["울진군", "영덕군", "포항시", "경주시", "청도군", "경산시"];
+        const gyungnam = ["거창군", "함양군"];
+        // 중부1 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척 제외), 충청북도(제천), 경상북도(봉화, 청송)
+        if((sido == 10 && !gangwon.includes(gugun)) || (sido == 11 && chungbuk.includes(gugun)) || (sido == 15 && gyungbuk.includes(gugun))) {
+            localeCode = 0;
+        // 남부 : 경상북도(울진, 영덕, 포항, 경주, 청도, 경산), 경상남도(거창, 함양 제외)
+        } else if ((sido == 15 && gyungbuk.includes(gugun)) || (sido == 16 && !gyungnam.includes(gugun))){
+            localeCode = 3;
+        // 중부2 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척), 충청북도(제천 제외), 경상북도(봉화, 청송, 울진, 영덕, 포항, 경주, 청도, 경산 제외), 경상남도(거창, 함양)
+        } else {
+            localeCode = 1;
+        }
+    }
+    document.getElementById('locale').value = localeCode;
 };

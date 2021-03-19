@@ -153,5 +153,9 @@
 	{"partCode":7,"part":"바닥(간접-비난방)"},
 	{"partCode":8,"part":"창호(직접)"},
 	{"partCode":9,"part":"창호(간접)"}
-]}
-]
+]},
+{"concreteThermalConductivity" :  [
+	{"id":0,"concrete":"현장기포 0.4폼","value":0.13},
+	{"id":1,"concrete":"현장기포 0.5폼","value":0.16},
+	{"id":2,"concrete":"현장기포 0.6폼","value":0.19}
+]}]

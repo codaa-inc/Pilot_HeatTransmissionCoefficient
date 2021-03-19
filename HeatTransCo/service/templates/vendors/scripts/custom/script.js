@@ -16,7 +16,6 @@ fetch('data/').then((response) => response.json()).then((json) => initSet(json))
 *  데이터 로드 후 초기값을 셋팅하는 함수
 */
 function initSet(items) {
-
     // 서버에서 가져온 JSON 데이터 전역변수에 복사
     if (items != null || items != "" || items != "undefined") {
         data = JSON.parse(JSON.stringify(items));
@@ -42,27 +41,29 @@ function initSet(items) {
 
     // 단열재
     const material = data[2].materialThermalConductivity;
+    const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'roof-direct-kind-2',
+                        'roof-indirect-kind-2','floor-direct-kind-3', 'floor-indirect-kind-3',
+                        'floorb-direct-kind-2', 'floorb-indirect-kind-2'];
     for(const i in material) {
-        const op1 = new Option();
-        const op2 = new Option();
-        op1.value = material[i]['value'];
-        op1.text = material[i]['material'];
-        op2.value = material[i]['value'];
-        op2.text = material[i]['material'];
-        document.getElementById('wall-direct-kind-2').appendChild(op1);
-        document.getElementById('wall-indirect-kind-2').appendChild(op2);
+        for(const j in materialArr) {
+            const op = new Option();
+            op.text = material[i]['material'];
+            op.value = material[i]['value'];
+            document.getElementById(materialArr[j]).appendChild(op);
+        }
     }
+
     // 구조재
     const structure = data[3].structureThermalConductivity;
-        for(const i in structure) {
-        const op = new Option();
-        const op1 = new Option();
-        op.value = structure[i]['value'];
-        op.text = structure[i]['structure'];
-        op1.value = structure[i]['value'];
-        op1.text = structure[i]['structure'];
-        document.getElementById('wall-direct-kind-1').appendChild(op);
-        document.getElementById('wall-indirect-kind-1').appendChild(op1);
+    const structureArr = ['wall-direct-kind-1', 'wall-indirect-kind-1', 'roof-direct-kind-1',
+                        'roof-indirect-kind-1','floor-direct-kind-1', 'floor-indirect-kind-1'];
+    for(const i in structure) {
+        for(const j in structureArr) {
+            const op = new Option();
+            op.text = structure[i]['structure'];
+            op.value = structure[i]['value'];
+            document.getElementById(structureArr[j]).appendChild(op);
+        }
     }
 
     // 창호
@@ -91,33 +92,85 @@ function initSet(items) {
         document.getElementById('wall-indirect-kind-3').appendChild(op1);
     }
 
+    // 기포콘크리트 종류
+    const concrete = data[10].concreteThermalConductivity;
+    for(const i in concrete) {
+        const op = new Option();
+        const op1 = new Option();
+        op.value = concrete[i]['value'];
+        op.text = concrete[i]['concrete'];
+        op1.value = concrete[i]['value'];
+        op1.text = concrete[i]['concrete'];
+        document.getElementById('floor-direct-kind-2').appendChild(op);
+        document.getElementById('floor-indirect-kind-2').appendChild(op1);
+    }
+
     /**
      * 구조두께      : 100~300까지 10단위
      * 단열재두께    : 50~250까지 10단위
      * 외부마감재두께 : 외부마감재별 고정값
+     * 슬라브두께 : 150~250까지 10단위
+     * 기포콘크리트두께 : 25~100까지 5단위
+     * 바닥난방두께 : 30~50까지 5단위
      */
     //구조두께
     for (let i = 100; i <= 300; i+=10) {
-        const op = new Option();
-        const op1 = new Option();
-        op.value = i;
-        op.text = i;
-        op1.value = i;
-        op1.text = i;
-        document.getElementById('wall-direct-thick-1').appendChild(op);
-        document.getElementById('wall-indirect-thick-1').appendChild(op1);
+        const structureThickArr = ['wall-direct-thick-1', 'wall-indirect-thick-1', 'roof-direct-thick-1',
+                                  'roof-indirect-thick-1','floor-direct-thick-1', 'floor-indirect-thick-1'];
+        for(let j in structureThickArr) {
+            const op = new Option();
+            op.value = i;
+            op.text = i;
+            document.getElementById(structureThickArr[j]).appendChild(op);
+        }
     }
 
      //단열재두께
     for (let i = 50; i <= 250; i+=10) {
+        const materialThickArr = ['wall-direct-thick-2', 'wall-indirect-thick-2', 'roof-direct-thick-2',
+                                  'roof-indirect-thick-2','floor-direct-thick-3', 'floor-indirect-thick-3',
+                                  'floorb-direct-thick-2', 'floorb-indirect-thick-2'];
+        for(let j in materialThickArr) {
+            const op = new Option();
+            op.value = i;
+            op.text = i;
+            document.getElementById(materialThickArr[j]).appendChild(op);
+        }
+    }
+
+    // 슬라브두께
+    for (let i = 150; i <= 250; i+=10) {
+        const arr = ['floorb-direct-thick-1', 'floorb-indirect-thick-1', 'floor-direct-thick-4', 'floor-indirect-thick-4'];
+        for(let j in arr) {
+            const op = new Option();
+            op.value = i;
+            op.text = i;
+            document.getElementById(arr[j]).appendChild(op);
+        }
+    }
+
+    // 기포콘크리트두께
+    for (let i = 25; i <= 100; i+=5) {
         const op = new Option();
         const op1 = new Option();
         op.value = i;
         op.text = i;
         op1.value = i;
         op1.text = i;
-        document.getElementById('wall-direct-thick-2').appendChild(op);
-        document.getElementById('wall-indirect-thick-2').appendChild(op1);
+        document.getElementById( 'floor-indirect-thick-2').appendChild(op);
+        document.getElementById('floor-direct-thick-2').appendChild(op1);
+    }
+
+    // 바닥난방두께
+    for (let i = 30; i <= 50; i+=5) {
+        const op = new Option();
+        const op1 = new Option();
+        op.value = i;
+        op.text = i;
+        op1.value = i;
+        op1.text = i;
+        document.getElementById( 'floor-indirect-thick-1').appendChild(op);
+        document.getElementById('floor-direct-thick-1').appendChild(op1);
     }
 };
 
@@ -128,8 +181,6 @@ function onclickSearch() {
     if (localeCode != null &&  useCode != null) {
         setHeatTransCoPointEpi();   //열관류율기준값, 배점, EPI 기준값 셋팅
         setInitValue();             //초기데이터 셋팅
-
-
     } else {
         alert("지역과 용도를 선택하세요.");
     }
@@ -267,7 +318,9 @@ function setHeatTransCoPointEpi() {;
         }
     }
     // 지역별 열관류율 기준값 셋팅
-    const targetArr = ['wall-direct-locale', 'wall-indirect-locale', 'win-direct-locale', 'win-indirect-locale'];
+    const targetArr = ['wall-direct-locale', 'wall-indirect-locale', 'win-direct-locale', 'win-indirect-locale',
+                       'roof-direct-locale', 'roof-indirect-locale', 'floorb-direct-locale', 'floorb-indirect-locale',
+                       'floor-direct-locale', 'floor-indirect-locale'];
     for(let i in targetArr) {
         document.getElementById(targetArr[i]).innerHTML = "기준 "
             + (heatTransCoArr[i]).toFixed(3) + " 이하"
@@ -277,19 +330,20 @@ function setHeatTransCoPointEpi() {;
     const meanArr = data[7].MeanHeatTransmissionCoefficient;
     for(const i in meanArr) {
         if(useCode == arr[i]['useCode'] && localeCode == arr[i]['localeCode']) {
-            avgHeatTransCoArr = meanArr[i]['value'];
+            avgHeatTransCoArr = meanArr[i];
             break;
         }
     }
     // 지자체별 평균열관류율, 배점을 셋팅
-    const epi = document.getElementById('wall-avg-locale');
-    const point = document.getElementById('wall-avg-point');
-    for(const i in meanArr) {
-        if(useCode == meanArr[i]['useCode'] && localeCode == meanArr[i]['localeCode']) {
-            epi.innerText = "지자체\n" + meanArr[i]['value'][0] + "\n이하"
-                           // + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
-            point.innerText = "외벽배점\n" + meanArr[i]['point'] + "점";
-            break;
+    const epiArr = ['wall-avg-locale', 'roof-avg-locale', 'floor-avg-locale'];
+    const pointArr = ['wall-avg-point','roof-avg-point', 'floor-avg-point'];
+    for(const i in epiArr) {
+        let epi = document.getElementById(epiArr[i]);
+        epi.innerText = "지자체\n" + avgHeatTransCoArr['value'][i] + " 이하"
+                       // + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
+        if (localeCode != "5") {        // 제주지역은 배점 표시하지 않음
+            let point = document.getElementById(pointArr[i]);
+            point.innerText = "외벽배점 " + avgHeatTransCoArr['point'] + "점";
         }
     }
 };
@@ -339,7 +393,7 @@ function setWidthRatio(id) {
 
     }
     if (widthRatio != 0) {
-        document.getElementById(outputId).innerText = "면적비\n" + widthRatio;
+        document.getElementById(outputId).innerText = "면적비 " + widthRatio;
     }
 }
 
@@ -386,7 +440,7 @@ function setAvgHeatTransCo(id) {
     }
 
     if (avgTrans > 0) {
-        document.getElementById(outputId).innerText = "외벽평균\n열관류율\n" + avgTrans;
+        document.getElementById(outputId).innerText = "외벽평균 열관류율 " + avgTrans;
     }
 
     // 열관류율 검토결과 출력
@@ -424,9 +478,8 @@ function setSatisfyAvgResult(){
     // 검토대상인 열관류율
     const transArr = ['wall-avg-trans'];
     for (let i in transArr) {
-        const trans = ((document.getElementById(transArr[i]).innerText)
-            .replace("외벽평균", "")).replace("열관류율", "");
-        if (Number(trans) <= Number(avgHeatTransCoArr[i])) {
+        const trans = (document.getElementById(transArr[i]).innerText).replace("외벽평균 열관류율", "");
+        if (Number(trans) <= Number(avgHeatTransCoArr['value'][i])) {
             document.getElementById(resultArr[i]).innerText = "만족";
             document.getElementById(resultArr[i]).style.color = "#0D47A1";
         } else {
@@ -546,6 +599,7 @@ $('document').ready(function () {
         var $gugun = $("#gugun1");                    // 선택영역 군구 객체
         // 2 Depth
         if (idx == 10 || idx == 11 || idx == 15 || idx == 16) {
+            $('.header-right').css('width', '75%');       // 헤더 영역 확보
             $gugun.children('option:not(:first)').remove();     // 구군 콤보박스 초기화
             $gugun.css("display", "");                    // 구군 콤보박스 toggle
             $gugun.append("<option value='0' selected disabled hidden>구/군 선택</option>");
@@ -554,7 +608,8 @@ $('document').ready(function () {
             });
         // 1 Depth
         } else {
-            $gugun.css("display", "none");  // 구군 콤보박스 toggle
+            $('.header-right').css('width', '65%');     // 헤더 영역 초기화
+            $gugun.css("display", "none");              // 구군 콤보박스 toggle
             setLocaleCode(idx);
         }
     });
@@ -593,14 +648,15 @@ function setLocaleCode(sido, gugun) {
     // 2 Depth
     } else {
         const gangwon = ["고성군", "속초시", "양양군", "강릉시", "동해시", "삼척시"];
-        const chungbuk = ["제천"];
-        const gyungbuk = ["울진군", "영덕군", "포항시", "경주시", "청도군", "경산시"];
+        const chungbuk = ["제천시"];
+        const gyungbuk1 = ["봉화군", '청송군']
+        const gyungbuk2 = ["울진군", "영덕군", "포항시", "경주시", "청도군", "경산시"];
         const gyungnam = ["거창군", "함양군"];
         // 중부1 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척 제외), 충청북도(제천), 경상북도(봉화, 청송)
-        if((sido == 10 && !gangwon.includes(gugun)) || (sido == 11 && chungbuk.includes(gugun)) || (sido == 15 && gyungbuk.includes(gugun))) {
+        if((sido == 10 && !gangwon.includes(gugun)) || (sido == 11 && chungbuk.includes(gugun)) || (sido == 15 && gyungbuk1.includes(gugun))) {
             localeCode = 0;
         // 남부 : 경상북도(울진, 영덕, 포항, 경주, 청도, 경산), 경상남도(거창, 함양 제외)
-        } else if ((sido == 15 && gyungbuk.includes(gugun)) || (sido == 16 && !gyungnam.includes(gugun))){
+        } else if ((sido == 15 && gyungbuk2.includes(gugun)) || (sido == 16 && !gyungnam.includes(gugun))){
             localeCode = 3;
         // 중부2 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척), 충청북도(제천 제외), 경상북도(봉화, 청송, 울진, 영덕, 포항, 경주, 청도, 경산 제외), 경상남도(거창, 함양)
         } else {

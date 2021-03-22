@@ -1,10 +1,11 @@
 [{"localeCode" : [
 	{"localeCode":0,"locale":"중부1"},
-	{"localeCode":1,"locale":"중부2"},
-	{"localeCode":2,"locale":"중부2(서울,경기)"},
-	{"localeCode":3,"locale":"남부"},
-	{"localeCode":4,"locale":"남부(부산,광주,울산)"},
-	{"localeCode":5,"locale":"제주"}
+	{"localeCode":1,"locale":"중부1(경기)"},
+	{"localeCode":2,"locale":"중부2"},
+	{"localeCode":3,"locale":"중부2(서울,경기)"},
+	{"localeCode":4,"locale":"남부"},
+	{"localeCode":5,"locale":"남부(부산,광주,울산)"},
+	{"localeCode":6,"locale":"제주"}
 ]},
 {"useCode" : [
 	{"useCode":0,"use":"주거"},
@@ -106,31 +107,35 @@
 ]},
 {"heatTransmissionCoefficient" : [
 	{"id":0,"useCode":0,"localeCode":0,"value":[0.150,0.210,0.900,1.300,0.150,0.210,0.170,0.240,0.150,0.210]},
-	{"id":1,"useCode":0,"localeCode":1,"value":[0.170,0.240,1.000,1.500,0.150,0.210,0.200,0.290,0.170,0.240]},
+	{"id":1,"useCode":0,"localeCode":1,"value":[0.150,0.210,0.900,1.300,0.150,0.210,0.170,0.240,0.150,0.210]},
 	{"id":2,"useCode":0,"localeCode":2,"value":[0.170,0.240,1.000,1.500,0.150,0.210,0.200,0.290,0.170,0.240]},
-	{"id":3,"useCode":0,"localeCode":3,"value":[0.220,0.310,1.200,1.700,0.180,0.260,0.250,0.350,0.220,0.310]},
+	{"id":3,"useCode":0,"localeCode":3,"value":[0.170,0.240,1.000,1.500,0.150,0.210,0.200,0.290,0.170,0.240]},
 	{"id":4,"useCode":0,"localeCode":4,"value":[0.220,0.310,1.200,1.700,0.180,0.260,0.250,0.350,0.220,0.310]},
-	{"id":5,"useCode":0,"localeCode":5,"value":[0.290,0.410,1.600,2.000,0.250,0.350,0.330,0.470,0.290,0.410]},
-	{"id":6,"useCode":1,"localeCode":0,"value":[0.170,0.240,1.300,1.600,0.150,0.210,0.170,0.240,0.150,0.210]},
-	{"id":7,"useCode":1,"localeCode":1,"value":[0.240,0.340,1.500,1.900,0.150,0.210,0.200,0.290,0.170,0.240]},
-	{"id":8,"useCode":1,"localeCode":2,"value":[0.240,0.340,1.500,1.900,0.150,0.210,0.200,0.290,0.170,0.240]},
-	{"id":8,"useCode":1,"localeCode":3,"value":[0.320,0.450,1.800,2.200,0.180,0.260,0.250,0.350,0.220,0.310]},
-	{"id":9,"useCode":1,"localeCode":4,"value":[0.320,0.450,1.800,2.200,0.180,0.260,0.250,0.350,0.220,0.310]},
-	{"id":10,"useCode":1,"localeCode":5,"value":[0.410,0.560,2.200,2.800,0.250,0.350,0.330,0.470,0.350,0.410]}
+	{"id":5,"useCode":0,"localeCode":5,"value":[0.220,0.310,1.200,1.700,0.180,0.260,0.250,0.350,0.220,0.310]},
+	{"id":6,"useCode":0,"localeCode":6,"value":[0.290,0.410,1.600,2.000,0.250,0.350,0.330,0.470,0.290,0.410]},
+	{"id":7,"useCode":1,"localeCode":0,"value":[0.170,0.240,1.300,1.600,0.150,0.210,0.170,0.240,0.150,0.210]},
+	{"id":8,"useCode":1,"localeCode":1,"value":[0.170,0.240,1.300,1.600,0.150,0.210,0.170,0.240,0.150,0.210]},
+	{"id":9,"useCode":1,"localeCode":2,"value":[0.240,0.340,1.500,1.900,0.150,0.210,0.200,0.290,0.170,0.240]},
+	{"id":10,"useCode":1,"localeCode":3,"value":[0.240,0.340,1.500,1.900,0.150,0.210,0.200,0.290,0.170,0.240]},
+	{"id":11,"useCode":1,"localeCode":4,"value":[0.320,0.450,1.800,2.200,0.180,0.260,0.250,0.350,0.220,0.310]},
+	{"id":12,"useCode":1,"localeCode":5,"value":[0.320,0.450,1.800,2.200,0.180,0.260,0.250,0.350,0.220,0.310]},
+	{"id":13,"useCode":1,"localeCode":6,"value":[0.410,0.560,2.200,2.800,0.250,0.350,0.330,0.470,0.350,0.410]}
 ]},
 {"MeanHeatTransmissionCoefficient" : [
 	{"localeCode":0,"useCode":0,"point":0.6,"value":[0.45,0.15,0.18]},
-	{"localeCode":1,"useCode":0,"point":0.6,"value":[0.50,0.15,0.21]},
-	{"localeCode":2,"useCode":0,"point":0.8,"value":[0.42,0.11,0.15]},
-	{"localeCode":3,"useCode":0,"point":0.6,"value":[0.61,0.18,0.26]},
-	{"localeCode":4,"useCode":0,"point":0.8,"value":[0.51,0.14,0.19]},
-	{"localeCode":5,"useCode":0,"point":0,"value":[0.25,0.21,0.28]},
+	{"localeCode":1,"useCode":0,"point":0.8,"value":[0.42,0.11,0.15]},
+	{"localeCode":2,"useCode":0,"point":0.6,"value":[0.50,0.15,0.21]},
+	{"localeCode":3,"useCode":0,"point":0.8,"value":[0.42,0.11,0.15]},
+	{"localeCode":4,"useCode":0,"point":0.6,"value":[0.61,0.18,0.26]},
+	{"localeCode":5,"useCode":0,"point":0.8,"value":[0.51,0.14,0.19]},
+	{"localeCode":6,"useCode":0,"point":0,"value":[0.25,0.21,0.28]},
 	{"localeCode":0,"useCode":1,"point":0.6,"value":[0.58,0.15,0.18]},
-	{"localeCode":1,"useCode":1,"point":0.6,"value":[0.74,0.15,0.21]},
-	{"localeCode":2,"useCode":1,"point":0.8,"value":[0.62,0.11,0.15]},
-	{"localeCode":3,"useCode":1,"point":0.6,"value":[0.91,0.18,0.26]},
-	{"localeCode":4,"useCode":1,"point":0.8,"value":[0.76,0.14,0.19]},
-	{"localeCode":5,"useCode":1,"point":0,"value":[0.25,0.21,0.28]}
+	{"localeCode":1,"useCode":1,"point":0.8,"value":[0.62,0.11,0.15]},
+	{"localeCode":2,"useCode":1,"point":0.6,"value":[0.74,0.15,0.21]},
+	{"localeCode":3,"useCode":1,"point":0.8,"value":[0.62,0.11,0.15]},
+	{"localeCode":4,"useCode":1,"point":0.6,"value":[0.91,0.18,0.26]},
+	{"localeCode":5,"useCode":1,"point":0.8,"value":[0.76,0.14,0.19]},
+	{"localeCode":6,"useCode":1,"point":0,"value":[0.25,0.21,0.28]}
 ]},
 {"externalMaterialThermalConductivity" : [
 	{"id":0,"exmaterial":"마감재 미고려","value":0},
@@ -155,7 +160,17 @@
 	{"partCode":9,"part":"창호(간접)"}
 ]},
 {"concreteThermalConductivity" :  [
-	{"id":0,"concrete":"현장기포 0.4폼","value":0.13},
-	{"id":1,"concrete":"현장기포 0.5폼","value":0.16},
-	{"id":2,"concrete":"현장기포 0.6폼","value":0.19}
+	{"id":0,"concrete":"기포없음","value":0},
+	{"id":1,"concrete":"현장기포 0.4폼","value":0.13},
+	{"id":2,"concrete":"현장기포 0.5폼","value":0.16},
+	{"id":3,"concrete":"현장기포 0.6폼","value":0.19}
+]},
+{"slabHeatResistance" :  [
+	{"localeCode":0,"direct":4.00,"indirect":2.86},
+	{"localeCode":1,"direct":4.00,"indirect":2.86},
+	{"localeCode":2,"direct":3.82,"indirect":2.71},
+	{"localeCode":3,"direct":3.82,"indirect":2.71},
+	{"localeCode":4,"direct":3.18,"indirect":2.26},
+	{"localeCode":5,"direct":3.18,"indirect":2.26},
+	{"localeCode":6,"direct":2.41,"indirect":1.71}
 ]}]

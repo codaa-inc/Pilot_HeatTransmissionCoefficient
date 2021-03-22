@@ -5753,6 +5753,9 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
   padding: 10px;
   vertical-align : middle;
   justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .clearfix::after {

@@ -173,4 +173,14 @@
 	{"localeCode":4,"direct":3.18,"indirect":2.26},
 	{"localeCode":5,"direct":3.18,"indirect":2.26},
 	{"localeCode":6,"direct":2.41,"indirect":1.71}
+]},
+{"surfaceHeatResistance" : [
+	{"partCode":0,"outdoor":0.043,"indoor":0.11},
+	{"partCode":1,"outdoor":0.11,"indoor":0.11},
+	{"partCode":2,"outdoor":0.043,"indoor":0.086},
+	{"partCode":3,"outdoor":0.086,"indoor":0.086},
+	{"partCode":4,"outdoor":0.043,"indoor":0.086},
+	{"partCode":5,"outdoor":0.15,"indoor":0.086},
+	{"partCode":6,"outdoor":0.043,"indoor":0.086},
+	{"partCode":7,"outdoor":0.15,"indoor":0.086}
 ]}]

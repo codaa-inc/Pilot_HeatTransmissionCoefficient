@@ -254,11 +254,8 @@ function setInitValue() {
         setHeatTransCo(heatArr[i]);
     }
 
-    // 면적비 셋팅
-    const ratioArr = ['wall', 'roof', 'floor'];
-    for(let i in ratioArr) {
-        setWidthRatio(ratioArr[i]);
-    }
+    // 창면적비 셋팅
+    setWidthRatio("wall");
 };
 
 /**
@@ -339,22 +336,29 @@ function onchangeCombobox(id) {
 */
 function setHeatTransCo(id) {
     const formId = id.split("-");
-    if (formId[0] == "win") {   //창호는 열저항 계산하지 않음
+     //창호는 열저항 계산하지 않음
+    if (formId[0] == "win") {
         setHeatTransCoWin(id);
     } else {
-        const formObj = document.getElementsByName(formId[0])[0];  //접근할 form form 객체(wall, win,...)
-        const selTag = formObj.getElementsByTagName("select");     //form 객체 하위 select tag들
+        //접근할 form 객체(wall, win,...)
+        const formObj = document.getElementsByName(formId[0])[0];
+        //form 객체 하위 select tag들
+        const selTag = formObj.getElementsByTagName("select");
+        //열관류율을 출력할 태그
         const printTag = document.getElementById(formId[0] + "-" + formId[1] + "-trans");
-        let heatRes = 0;    //열저항값
+        //열저항값
+        let heatRes = 0;
+        //재료 열저항값 연산
         for(let i = 0; i < selTag.length; i+=2) {
             const flag = ((selTag[i].id).split("-"))[1]; // 직접 or 간접
             if (flag == formId[1]) {
                 heatRes += Number(calcHeatResistance(selTag[i].value, selTag[i+1].value));  // 재료(열전도율) 선택값, 두께 선택값
             }
         }
-        let heatTransCo = calcHeatTransCo(heatRes);
+        //열관류율 출력
+        let heatTransCo = calcHeatTransCo(formId[0] + formId[1], heatRes);
         if (heatTransCo > 0) {
-            printTag.innerText = "열관류율 " + calcHeatTransCo(heatRes);
+            printTag.innerText = "열관류율 " + heatTransCo;
         }
     }
 
@@ -373,7 +377,7 @@ function setHeatTransCoWin(id) {
 }
 
 /**
-*  지역별 열관류율 기준값, 지자체별 평균열관류율 기준값,배점을 셋팅하는 함수
+*  지역별 열관류율 기준값, 지자체별 평균열관류율 기준값,배점, 표면열저항값을 셋팅하는 함수
 */
 function setHeatTransCoPointEpi() {;
     // 지역별 열관류율 기준값을 전역변수에 담는다.
@@ -418,14 +422,13 @@ function setHeatTransCoPointEpi() {;
     const slabArr = data[11].slabHeatResistance;
     for(let i in slabArr) {
         if (localeCode == slabArr[i]['localeCode']) {
-            slabHeatResistance[0] = slabArr[i]['direct'];
-            slabHeatResistance[1] = slabArr[i]['indirect'];
+            slabHeatResistance[0] = (slabArr[i]['direct']).toFixed(3);
+            slabHeatResistance[1] = (slabArr[i]['indirect']).toFixed(3);
             document.getElementById('floor-direct-slab').innerText = "슬라브상부 단열기준\n" + slabHeatResistance[0] + " 이상";
             document.getElementById('floor-indirect-slab').innerText = "슬라브상부 단열기준\n" + slabHeatResistance[1] + " 이상";
             break;
         }
     }
-
 };
 
 /**
@@ -442,14 +445,14 @@ function onchangeUse(sel) {
 * Param : 변경된 면적의 ID
 */
 function onchangeWidth(id) {
-    // 면적비 셋팅
+    // 창면적비 셋팅
     setWidthRatio(id);
     // 평균열관류율 셋팅
     setAvgHeatTransCo(id);
 };
 
 /**
-* 면적비를 셋팅하는 함수
+* 창면적비를 셋팅하는 함수
 * Param : 변경된 면적의 ID
 */
 function setWidthRatio(id) {
@@ -458,36 +461,28 @@ function setWidthRatio(id) {
     // 면적비를 출력할 태그 ID
     let outputId = inputId + "-width-ratio";
     // 면적값이 담긴 태그 배열
-    let arr = new Array();
-    if (inputId == "wall" || inputId == "win") {    // 외벽
-        arr = ["wall-direct-width", "wall-indirect-width", "win-direct-width", "win-indirect-width"];
-    } else if (inputId == "roof") {                 // 지붕
-        arr = ["roof-direct-width", "roof-indirect-width"];
-    } else if (inputId == "floor") {                // 바닥
-        arr = ["floorb-direct-width", "floorb-indirect-width", "floor-direct-width", "floor-indirect-width"]
-    }
-    //면적값 추출
-    let widthRatio = 0;
-    for(let i in arr) {
-        arr[i] = Number(setValidNum(document.getElementById(arr[i]).value));
-    }
-    // 면적값 연산 및 출력
-    widthRatio = calcWidthRatio(inputId, arr);
-    if (isValidNum(widthRatio)) {
-        document.getElementById(outputId).innerText = "면적비 " + widthRatio;
+    let arr = ["wall-direct-width", "wall-indirect-width", "win-direct-width", "win-indirect-width"];
+    if (inputId == "wall" || inputId == "win") {    // 외벽창면적비
+        //면적값 추출
+        let widthRatio = 0;
+        for(let i in arr) {
+            arr[i] = Number(setValidNum(document.getElementById(arr[i]).value));
+        }
+        // 면적값 연산 및 출력
+        widthRatio = calcWidthRatio(arr);
+        if (isValidNum(widthRatio)) {
+            document.getElementById(outputId).innerText = "창면적비 " + widthRatio;
+        }
     }
 }
 
 /**
-*  면적비를 연산하는 함수
-* Param : 부위구분, number array
+*  창면적비를 연산하는 함수
+* Param : number array
 * Return : 면적비
 */
-function calcWidthRatio(target, arr) {
-    console.log(target + " : ", arr);
-    if (target == "wall" || target == "win") {
-        return ((arr[2] + arr[3]) / (arr[0] + arr[1] + arr[2] + arr[3])).toFixed(3);
-    }
+function calcWidthRatio(arr) {
+    return ((arr[2] + arr[3]) / (arr[0] + arr[1] + arr[2] + arr[3])).toFixed(3);
 };
 
 /**
@@ -501,16 +496,16 @@ function setAvgHeatTransCo(id) {
     let avgTrans = 0;
     let text = "";
     
-    if (inputId == "wall" || inputId == "win") {      // 외벽평균열관류율
+    if (inputId == "wall" || inputId == "win") {                // 외벽평균열관류율
         arr = ["wall-direct-width", "wall-direct-trans", "wall-indirect-width", "wall-indirect-trans",
                "win-direct-width", "win-direct-trans", "win-indirect-width", "win-direct-trans" ]
         outputId = 'wall-avg-trans';
         text = "외벽평균";
-    } else if (inputId == "roof") {                  // 지붕평균열관류율
+    } else if (inputId == "roof") {                             // 지붕평균열관류율
         arr = ["roof-direct-width", "roof-direct-trans", "roof-indirect-width", "roof-indirect-trans"];
         outputId = 'roof-avg-trans';
         text = "지붕평균";
-    } else if (inputId == "floor") {                 // 바닥평균열관류율
+    } else if (inputId == "floorb" || inputId == "floor") {     // 바닥평균열관류율
         arr = ["floorb-direct-width", "floorb-direct-trans", "floorb-indirect-width", "floorb-indirect-trans",
                "floor-direct-width", "floor-direct-trans", "floor-indirect-width", "floor-direct-trans" ]
         outputId = 'floor-avg-trans';
@@ -572,16 +567,21 @@ function setSatisfyAvgResult(id){
     // 해당 부위의 평균열관류율 기준 ID
     const transId = part + '-avg-trans';
     // 해당 부위의 평균열관류율 값
-    const trans = (document.getElementById(transId).innerText).replace("외벽평균열관류율", "");
+    let text = "";
     // 평균열관류율 기준값
     let avgHeat = 0;
     if(part == 'wall') {
         avgHeat = avgHeatTransCoArr['value'][0];
+        text = "외벽평균열관류율";
     } else if (part == 'roof') {
         avgHeat = avgHeatTransCoArr['value'][1];
+        text = "지붕평균열관류율";
     } else if (part == 'floor') {
         avgHeat = avgHeatTransCoArr['value'][2];
+        text = "바닥평균열관류율";
     }
+    // 해당 부위의 평균열관류율 값
+    const trans = (document.getElementById(transId).innerText).replace(text, "");
     // 평균열관류율 검토결과 출력
     if (Number(trans) <= Number(avgHeat)) {
         document.getElementById(resultId).innerText = "만족";
@@ -604,17 +604,15 @@ function setSatisfyHeatResistance() {
     const indirectTag = document.getElementById('floor-indirect-slab-result');
     let direct = 0;     // 직접 열저항값
     let indirect = 0;   // 간접 열저항값
+
     // 슬라브상부 열저항값
     for(let i in materialArr) {
         if (i <= 2) {
-            direct += Number(calcHeatResistance(document.getElementById(materialArr[i]), document.getElementById(thickArr[i])));
+            direct += Number(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value));
         } else {
-            indirect += Number(calcHeatResistance(document.getElementById(materialArr[i]), document.getElementById(thickArr[i])));
+            indirect += Number(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value));
         }
     }
-
-    console.log(direct, slabHeatResistance[0]);
-    console.log(indirect, slabHeatResistance[1])
 
     // 슬라브상부 열저항기준 검토결과 출력
     if (direct >= slabHeatResistance[0]) {
@@ -641,11 +639,17 @@ function setSatisfyHeatResistance() {
 function calcAvgHeatTransCo(part, arr) {
     // 평균열관류율 검토결과를 출력할 부위
     part = ((part.split("-")[0]).replace("win", "wall")).replace("floorb", "floor");
-    if (part == "wall" || part == "floor") {     // 외벽평균열관류율, 바닥평균열관류율
-        return (((arr[0] * arr[1] + arr[4] * arr[5]) + ((arr[2] * arr[3] + arr[6] * arr[7]) * 0.7))
+    if (part == "wall") {
+        // 외벽평균열관류율 보정계수 : 외벽 직접 1.0, 외벽 간접 0.8, 창호 직접 1.0, 창호간접 0.8
+        return ((arr[0] * arr[1] + arr[4] * arr[5] + (arr[2] * arr[3] + arr[6] * arr[7]) * 0.8)
                / (arr[0] + arr[2] + arr[4] + arr[6])).toFixed(3);
-    } else if (part == "roof") {                  // 지붕평균열관류율
-        return (((arr[0] * arr[1]) + ((arr[2] * arr[3]) * 0.7)) / (arr[0] + arr[2])).toFixed(3);
+    } else if (part == "roof") {
+        // 지붕평균열관류율 보정계수 : 지붕 직접 1.0, 지붕 간접 0.7
+        return  (((arr[0] * arr[1]) + ((arr[2] * arr[3]) * 0.7)) / (arr[0] + arr[2])).toFixed(3);
+    } else if(part == "floor") {
+        // 바닥평균열관류율 보정계수 : 바닥 직접 1.0, 바닥 간접 0.7
+        return  (((arr[0] * arr[1] + arr[4] * arr[5]) + ((arr[2] * arr[3] + arr[6] * arr[7]) * 0.7))
+               / (arr[0] + arr[2] + arr[4] + arr[6])).toFixed(3);
     }
 };
 
@@ -664,10 +668,21 @@ function calcHeatResistance(material, thick) {
 
 /**
 * 열관류율 연산 함수
-* Param : 열저항
+* Param : 연산할 부위의 ID, 열저항
 * Return : 열관류율
 */
-function calcHeatTransCo(heatRes) {
+function calcHeatTransCo(formId, heatRes) {
+    //부위별 표면열저항값 처리
+    const partArr = ["walldirect", "wallindirect", "roofdirect", "roofindirect",
+                     "floorbdirect", "floorbindirect", "floordirect", "floorindirect" ]
+    const idx = partArr.indexOf(formId);
+    if (idx > -1) {
+        const surfaceHeatResistance = data[12].surfaceHeatResistance[idx];
+        // 재료 열저항 + 실외표면 열저항 + 실내표면 열저항
+        heatRes += surfaceHeatResistance['outdoor'] + surfaceHeatResistance['indoor'];
+    }
+
+    // 열관류율 연산
     if(isValidNum(heatRes)) {
         return (1 / heatRes).toFixed(3);
     } else {

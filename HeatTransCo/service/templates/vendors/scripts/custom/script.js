@@ -677,7 +677,7 @@ function calcHeatTransCo(formId, heatRes) {
                      "floorbdirect", "floorbindirect", "floordirect", "floorindirect" ]
     const idx = partArr.indexOf(formId);
     if (idx > -1) {
-        const surfaceHeatResistance = data[12].surfaceHeatResistance[idx];
+        const surfaceHeatResistance = data[5].surfaceHeatResistance[idx];
         // 재료 열저항 + 실외표면 열저항 + 실내표면 열저항
         heatRes += surfaceHeatResistance['outdoor'] + surfaceHeatResistance['indoor'];
     }

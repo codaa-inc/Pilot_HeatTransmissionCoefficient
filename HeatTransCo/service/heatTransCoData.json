@@ -95,15 +95,15 @@
 	{"id":8,"window":"SS T24 로이아르곤 복층 여닫이창 (동해공영)","value":1.460},
 	{"id":9,"window":"AF T32 로이아르곤 삼중 폴딩도어 (한국폴딩)","value":1.326}
 ]},
-{"partThermalResistance" : [
-	{"partCode":0,"ro":0.043 ,"ri":0.110 },
-	{"partCode":1,"ro":0.110 ,"ri":0.110 },
-	{"partCode":2,"ro":0.043 ,"ri":0.086 },
-	{"partCode":3,"ro":0.086 ,"ri":0.086 },
-	{"partCode":4,"ro":0.043 ,"ri":0.086 },
-	{"partCode":5,"ro":0.043 ,"ri":0.086 },
-	{"partCode":6,"ro":0.150 ,"ri":0.086 },
-	{"partCode":7,"ro":0.150 ,"ri":0.086 }
+{"surfaceHeatResistance" : [
+	{"partCode":0,"outdoor":0.043,"indoor":0.11},
+	{"partCode":1,"outdoor":0.11,"indoor":0.11},
+	{"partCode":2,"outdoor":0.043,"indoor":0.086},
+	{"partCode":3,"outdoor":0.086,"indoor":0.086},
+	{"partCode":4,"outdoor":0.043,"indoor":0.086},
+	{"partCode":5,"outdoor":0.15,"indoor":0.086},
+	{"partCode":6,"outdoor":0.043,"indoor":0.086},
+	{"partCode":7,"outdoor":0.15,"indoor":0.086}
 ]},
 {"heatTransmissionCoefficient" : [
 	{"id":0,"useCode":0,"localeCode":0,"value":[0.150,0.210,0.900,1.300,0.150,0.210,0.170,0.240,0.150,0.210]},
@@ -173,14 +173,4 @@
 	{"localeCode":4,"direct":3.18,"indirect":2.26},
 	{"localeCode":5,"direct":3.18,"indirect":2.26},
 	{"localeCode":6,"direct":2.41,"indirect":1.71}
-]},
-{"surfaceHeatResistance" : [
-	{"partCode":0,"outdoor":0.043,"indoor":0.11},
-	{"partCode":1,"outdoor":0.11,"indoor":0.11},
-	{"partCode":2,"outdoor":0.043,"indoor":0.086},
-	{"partCode":3,"outdoor":0.086,"indoor":0.086},
-	{"partCode":4,"outdoor":0.043,"indoor":0.086},
-	{"partCode":5,"outdoor":0.15,"indoor":0.086},
-	{"partCode":6,"outdoor":0.043,"indoor":0.086},
-	{"partCode":7,"outdoor":0.15,"indoor":0.086}
 ]}]

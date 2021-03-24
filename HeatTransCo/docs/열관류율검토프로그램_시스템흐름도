@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-03-24T01:17:38.010Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="lqSg_kO7_f5fBuWOFZlQ" version="14.5.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-24T01:19:32.443Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="TxtSS35_q3RviDSIJ70W" version="14.5.0" type="github">
   <diagram name="Page-1" id="74e2e168-ea6b-b213-b513-2b3c1d86103e">
-    <mxGraphModel dx="1318" dy="555" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="1291" dy="555" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -62,7 +62,7 @@
         <mxCell id="D5Cr7j32FA-voESJQUqk-31" value="&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;지역구분&lt;/span&gt;&lt;br style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;용도구분&lt;/span&gt;&lt;br style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;&lt;span style=&quot;font-family: &amp;#34;verdana&amp;#34;&quot;&gt;선택체크&lt;/span&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="77e6c97f196da883-4" vertex="1">
           <mxGeometry x="30" y="100" width="100" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="D5Cr7j32FA-voESJQUqk-34" value="재료,두께,면적,&lt;br&gt;지역별, 용도별&lt;br&gt;기준치 출력" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="77e6c97f196da883-4" vertex="1">
+        <mxCell id="D5Cr7j32FA-voESJQUqk-34" value="재료,두께,면적,&lt;br&gt;지역별&lt;span style=&quot;font-family: &amp;#34;malgun gothic&amp;#34; ; font-size: 16px ; background-color: rgb(255 , 255 , 255)&quot;&gt;·&lt;/span&gt;용도별&lt;br&gt;기준치 출력" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="77e6c97f196da883-4" vertex="1">
           <mxGeometry x="30" y="230" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="D5Cr7j32FA-voESJQUqk-33" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="77e6c97f196da883-4" source="D5Cr7j32FA-voESJQUqk-31" target="D5Cr7j32FA-voESJQUqk-34" edge="1">

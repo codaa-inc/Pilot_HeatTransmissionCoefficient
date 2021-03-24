@@ -486,7 +486,7 @@ function setWidthRatio(id) {
 * Return : 면적비
 */
 function calcWidthRatio(arr) {
-    return ((arr[2] + arr[3]) / (arr[0] + arr[1] + arr[2] + arr[3])).toFixed(3);
+    return roundTo((arr[2] + arr[3]) / (arr[0] + arr[1] + arr[2] + arr[3]), 3);
 };
 
 /**
@@ -643,18 +643,20 @@ function setSatisfyHeatResistance() {
 function calcAvgHeatTransCo(part, arr) {
     // 평균열관류율 검토결과를 출력할 부위
     part = ((part.split("-")[0]).replace("win", "wall")).replace("floorb", "floor");
+    let avg = 0;
     if (part == "wall") {
-        // 외벽평균열관류율 보정계수 : 외벽 직접 1.0, 외벽 간접 0.8, 창호 직접 1.0, 창호간접 0.8
-        return ((arr[0] * arr[1] + arr[4] * arr[5] + (arr[2] * arr[3] + arr[6] * arr[7]) * 0.8)
-               / (arr[0] + arr[2] + arr[4] + arr[6])).toFixed(3);
+        // 외벽평균열관류율 보정계수 : 외벽 직접 1.0, 외벽 간접 0.7, 창호 직접 1.0, 창호간접 0.8
+        avg =  (arr[0] * arr[1] + arr[4] * arr[5] + (arr[2] * arr[3]) * 0.7 + (arr[6] * arr[7]) * 0.8)
+               / (arr[0] + arr[2] + arr[4] + arr[6]);
     } else if (part == "roof") {
         // 지붕평균열관류율 보정계수 : 지붕 직접 1.0, 지붕 간접 0.7
-        return  (((arr[0] * arr[1]) + ((arr[2] * arr[3]) * 0.7)) / (arr[0] + arr[2])).toFixed(3);
+        avg = ((arr[0] * arr[1]) + ((arr[2] * arr[3]) * 0.7)) / (arr[0] + arr[2]);
     } else if(part == "floor") {
         // 바닥평균열관류율 보정계수 : 바닥 직접 1.0, 바닥 간접 0.7
-        return  (((arr[0] * arr[1] + arr[4] * arr[5]) + ((arr[2] * arr[3] + arr[6] * arr[7]) * 0.7))
-               / (arr[0] + arr[2] + arr[4] + arr[6])).toFixed(3);
+        avg = ((arr[0] * arr[1] + arr[4] * arr[5]) + ((arr[2] * arr[3] + arr[6] * arr[7]) * 0.7))
+               / (arr[0] + arr[2] + arr[4] + arr[6]);
     }
+    return roundTo(avg, 3);
 };
 
 /**
@@ -664,7 +666,7 @@ function calcAvgHeatTransCo(part, arr) {
 */
 function calcHeatResistance(material, thick) {
     if(isValidNum(material) && isValidNum(thick)) {
-        return (thick / material / 1000).toFixed(3);
+        return roundTo(thick / material / 1000, 3);
     } else {
         return 0;
     }
@@ -688,7 +690,7 @@ function calcHeatTransCo(formId, heatRes) {
 
     // 열관류율 연산
     if(isValidNum(heatRes)) {
-        return (1 / heatRes).toFixed(3);
+        return roundTo(1 / heatRes, 3);
     } else {
         return 0;
     }
@@ -720,6 +722,19 @@ function setValidNum(number) {
     }
 };
 
+/**
+ * 소수점 반올림 함수
+ * Param : number, digits
+ * Return : number
+ * */
+function roundTo(number, digits) {
+    if (digits === undefined) {
+        digits = 0;
+    }
+    let multiplicator = Math.pow(10, digits);
+    number = parseFloat((number * multiplicator).toFixed(11));
+    return Math.round(number) / multiplicator;
+}
 
 /***************************************************************************
   지역선택 콤보 셋팅 영역

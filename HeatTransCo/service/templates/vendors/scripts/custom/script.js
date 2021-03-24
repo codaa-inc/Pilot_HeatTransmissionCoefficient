@@ -14,9 +14,9 @@ let slabHeatResistance = new Array();   // 슬라브상부단열기준
 fetch('data/').then((response) => response.json()).then((json) => initSet(json));
 
 /**
-*  데이터 로드 후 초기값을 셋팅하는 함수
-*/
-function initSet(items) {
+ * 초기 데이터를 셋팅하는 함수
+ * */
+function initSet(items){
     // 서버에서 가져온 JSON 데이터 전역변수에 복사
     if (items != null || items != "" || items != "undefined") {
         data = JSON.parse(JSON.stringify(items));
@@ -39,7 +39,12 @@ function initSet(items) {
         op.text = use[i]['use'];
         document.getElementById('use').appendChild(op);
     }
+};
 
+/**
+*  콤보박스를 셋팅하는 함수
+*/
+function setInitCombobox(items) {
     // 단열재
     const material = data[2].materialThermalConductivity;
     const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'roof-direct-kind-2',
@@ -181,8 +186,9 @@ function initSet(items) {
  * */
 function onclickSearch() {
     if (localeCode != null &&  useCode != null) {
+        setInitCombobox();          //콤보박스 셋팅
         setHeatTransCoPointEpi();   //열관류율기준값, 배점, EPI 기준값 셋팅
-        setInitValue();             //초기데이터 셋팅
+        setInitValue();             //초기값 셋팅
     } else {
         alert("지역과 용도를 선택하세요.");
     }
@@ -458,8 +464,6 @@ function onchangeWidth(id) {
 function setWidthRatio(id) {
     // 면적비를 구할 부위
     const inputId = id.split("-")[0];
-    // 면적비를 출력할 태그 ID
-    let outputId = inputId + "-width-ratio";
     // 면적값이 담긴 태그 배열
     let arr = ["wall-direct-width", "wall-indirect-width", "win-direct-width", "win-indirect-width"];
     if (inputId == "wall" || inputId == "win") {    // 외벽창면적비
@@ -471,7 +475,7 @@ function setWidthRatio(id) {
         // 면적값 연산 및 출력
         widthRatio = calcWidthRatio(arr);
         if (isValidNum(widthRatio)) {
-            document.getElementById(outputId).innerText = "창면적비 " + widthRatio;
+            document.getElementById('wall-width-ratio').innerText = "창면적비 " + widthRatio;
         }
     }
 }

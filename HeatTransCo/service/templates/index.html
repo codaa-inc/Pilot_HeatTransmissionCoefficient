@@ -74,10 +74,9 @@
             <div class="page-header"
                  style="font-size : 0.8rem; margin-bottom: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <div class="row">
-                    <p class="mb-5" style="text-align: left; margin-left: 20px;">* 기준 = 에너지절약설계기준
-                        <br>* 지역별 녹색건축설계기준 고려한 최소 기준 (500㎡ 이상일때만 해당)
-                        <br>* 표면 열전달 저항값 자동 계산
-                        <br>* 창호열관류율은 제조사의 시험성적서 값을 적용 합니다. 선택한 창호의 시험성적서는 다음을 참고
+                    <p class="mb-5" style="text-align: left; margin-left: 20px;">* 기준 = 에너지 절약 설계기준 국토부 고시 제2017-881호
+                        <br>* 지역별 녹색건축설계기준 고려한 평균열관류율 기준 적용
+                        <br>* 표면 열전달 저항값 자동 계산됨. 창호열관류율은 제조사의 시험성적서 값을 임의적용 합니다.
                     </p>
                     <div style="display : inline-block; margin-left: auto; margin-right: 20px;">
                         <select class="selectpicker form-control" disabled>
@@ -92,33 +91,115 @@
                 <!-- Start of 외벽 form -->
                 <div>
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
-                        <div class="col-md-3 col-sm-6" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">외벽(직접)</p>
-                            <input id="wall-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="75">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">외벽(직접)</p>
+                            <p style="display: inline-block; font-size: smaller">면적</p>
+                            <input id="wall-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px; display: inline-block;" type="number" value="75">
+                            <p style="display: inline-block; font-size: smaller">㎡</p>
+                        </div>
+                        <div class="col-md-4 col-sm-6" style="display : inline-block;">
+                            <p style="display: inline-block;">적용 열관류율 </p>
+                            <p style="display: inline-block; font-weight: bolder" id="wall-direct-trans"></p>
+                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                            <p id="wall-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
                         </div>
                         <div class="col-md-2 col-sm-6" style="display : inline-block;">
-                            <p id="wall-direct-trans"></p>
+                            <p class="text h5" style="text-align: left;">외벽(간접)</p>
+                            <p style="display: inline-block; font-size: smaller">면적</p>
+                            <input id="wall-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px; display: inline-block;" type="number" value="75">
+                            <p style="display: inline-block; font-size: smaller">㎡</p>
                         </div>
-                        <div class="col-md-1 col-sm-6" style="display : inline-block;">
-                            <p id="wall-direct-result" style="font-weight: bold; font-size: large;"></p>
-                        </div>
-                        <div class="col-md-3 col-sm-6" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">외벽(간접)</p>
-                            <input id="wall-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
-                            <p id="wall-indirect-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-6" style="display : inline-block;">
-                            <p id="wall-indirect-result" style="font-weight: bold; font-size: large;"></p>
+                        <div class="col-md-4 col-sm-6" style="display : inline-block;">
+                            <p style="display: inline-block;">적용 열관류율 </p>
+                            <p style="display: inline-block; font-weight: bolder" id="wall-indirect-trans"></p>
+                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                            <p id="wall-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
                         </div>
                     </div>
                     <form name="wall" style="margin-top: 20px;">
                         <div class="row">
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-direct-kind-3"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>외부마감재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" disabled id="wall-direct-thick-3">
+                                        <option disabled hidden selected>외부마감재 두께</option>
+                                        <option value="0">0</option>
+                                        <option value="20">20</option>
+                                        <option value="90">90</option>
+                                        <option value="190">190</option>
+                                        <option value="290">290</option>
+                                        <option value="390">390</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <p id="wall-direct-locale"></p>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-indirect-kind-3"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>외부마감재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" disabled id="wall-indirect-thick-3">
+                                        <option disabled hidden selected>외부마감재 두께</option>
+                                        <option value="0">0</option>
+                                        <option value="20">20</option>
+                                        <option value="90">90</option>
+                                        <option value="190">190</option>
+                                        <option value="290">290</option>
+                                        <option value="390">390</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <p id="wall-indirect-locale"></p>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-direct-kind-4"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>단열재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-direct-thick-4"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>단열재 두께</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-indirect-kind-4"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>단열재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="wall-indirect-thick-4"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>단열재 두께</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-direct-kind-1"
@@ -135,9 +216,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="wall-direct-locale"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-indirect-kind-1"
@@ -154,9 +233,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="wall-indirect-locale"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-direct-kind-2"
@@ -187,50 +264,6 @@
                                     <select class="custom-select" id="wall-indirect-thick-2"
                                             onchange="onchangeCombobox(this.id)">
                                         <option disabled hidden selected>단열재 두께</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12"></div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" id="wall-direct-kind-3"
-                                            onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>외부마감재 종류</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" disabled id="wall-direct-thick-3">
-                                        <option disabled hidden selected>외부마감재 두께</option>
-                                        <option value="0">0</option>
-                                        <option value="20">20</option>
-                                        <option value="90">90</option>
-                                        <option value="190">190</option>
-                                        <option value="290">290</option>
-                                        <option value="390">390</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12"></div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" id="wall-indirect-kind-3"
-                                            onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>외부마감재 종류</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" disabled id="wall-indirect-thick-3">
-                                        <option disabled hidden selected>외부마감재 두께</option>
-                                        <option value="0">0</option>
-                                        <option value="20">20</option>
-                                        <option value="90">90</option>
-                                        <option value="190">190</option>
-                                        <option value="290">290</option>
-                                        <option value="390">390</option>
                                     </select>
                                 </div>
                             </div>
@@ -359,6 +392,54 @@
                         <div class="row">
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
+                                    <select class="custom-select" id="roof-direct-kind-3"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>외부마감재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" disabled id="roof-direct-thick-3" >
+                                        <option disabled hidden selected>외부마감재 두께</option>
+                                        <option value="0">0</option>
+                                        <option value="20">20</option>
+                                        <option value="90">90</option>
+                                        <option value="190">190</option>
+                                        <option value="290">290</option>
+                                        <option value="390">390</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <p id="roof-direct-locale"></p>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" id="roof-indirect-kind-3"
+                                            onchange="onchangeCombobox(this.id)">
+                                        <option disabled hidden selected>외부마감재 종류</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select" disabled id="roof-indirect-thick-3">
+                                        <option disabled hidden selected>외부마감재 두께</option>
+                                        <option value="0">0</option>
+                                        <option value="20">20</option>
+                                        <option value="90">90</option>
+                                        <option value="190">190</option>
+                                        <option value="290">290</option>
+                                        <option value="390">390</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <p id="roof-indirect-locale"></p>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
                                     <select class="custom-select" id="roof-direct-kind-1"
                                             onchange="onchangeCombobox(this.id)">
                                         <option disabled hidden selected>구조 재료</option>
@@ -373,9 +454,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="roof-direct-locale"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="roof-indirect-kind-1"
@@ -392,9 +471,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="roof-indirect-locale"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="roof-direct-kind-2"
@@ -425,50 +502,6 @@
                                     <select class="custom-select" id="roof-indirect-thick-2"
                                             onchange="onchangeCombobox(this.id)">
                                         <option disabled hidden selected>단열재 두께</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12"></div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" id="roof-direct-kind-3"
-                                            onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>외부마감재 종류</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" disabled id="roof-direct-thick-3" >
-                                        <option disabled hidden selected>외부마감재 두께</option>
-                                        <option value="0">0</option>
-                                        <option value="20">20</option>
-                                        <option value="90">90</option>
-                                        <option value="190">190</option>
-                                        <option value="290">290</option>
-                                        <option value="390">390</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12"></div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" id="roof-indirect-kind-3"
-                                            onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>외부마감재 종류</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select" disabled id="roof-indirect-thick-3">
-                                        <option disabled hidden selected>외부마감재 두께</option>
-                                        <option value="0">0</option>
-                                        <option value="20">20</option>
-                                        <option value="90">90</option>
-                                        <option value="190">190</option>
-                                        <option value="290">290</option>
-                                        <option value="390">390</option>
                                     </select>
                                 </div>
                             </div>
@@ -647,7 +680,7 @@
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-direct-kind-1" disabled>
-                                        <option value="1.4">바닥난방(몰탈)</option>
+                                        <option value="1.4">바닥난방 없음</option>
                                     </select>
                                 </div>
                             </div>
@@ -665,7 +698,7 @@
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-indirect-kind-1" disabled>
-                                        <option value="1.4">바닥난방(몰탈)</option>
+                                        <option value="1.4">바닥난방 없음</option>
                                     </select>
                                 </div>
                             </div>

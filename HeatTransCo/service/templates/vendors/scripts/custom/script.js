@@ -1,12 +1,12 @@
 /**
 * 전역변수 영역
 */
-let data  = null;      // 전체 데이터
-let localeCode = null; // 지역코드
-let useCode = null;    // 용도코드
-let heatTransCoArr = new Array();       // 열관류율기준
-let avgHeatTransCoArr = new Array();    // 평균열관류율기준
-let slabHeatResistance = new Array();   // 슬라브상부단열기준
+let data  = null;                           // 전체 데이터
+let LOCALE_CODE = null;                     // 지역코드
+let USE_CODE = null;                        // 용도코드
+let heatTransCoArr = new Array();           // 열관류율기준
+let avgHeatTransCoArr = new Array();        // 평균열관류율기준
+let slabHeatResistanceArr = new Array();    // 슬라브상부단열기준
 
 /**
 * 페이지 로딩 시 JSON 데이터를 호출하는 함수
@@ -47,8 +47,8 @@ function initSet(items){
 function setInitCombobox(items) {
     // 단열재
     const material = data[2].materialThermalConductivity;
-    const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'roof-direct-kind-2',
-                        'roof-indirect-kind-2','floor-direct-kind-3', 'floor-indirect-kind-3',
+    const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'wall-direct-kind-4', 'wall-indirect-kind-4',
+                        'roof-direct-kind-2', 'roof-indirect-kind-2','floor-direct-kind-3', 'floor-indirect-kind-3',
                         'floorb-direct-kind-2', 'floorb-indirect-kind-2', 'floor-direct-kind-5',
                         'floor-indirect-kind-5'];
     for(const i in material) {
@@ -130,10 +130,16 @@ function setInitCombobox(items) {
 
      //단열재두께
     const materialThickArr = ['wall-direct-thick-2', 'wall-indirect-thick-2', 'roof-direct-thick-2', 'roof-indirect-thick-2',
-                                  'floor-direct-thick-3', 'floor-indirect-thick-3', 'floorb-direct-thick-2',
-                                  'floorb-indirect-thick-2','floor-direct-thick-5', 'floor-indirect-thick-5'];
+                             'wall-direct-thick-4', 'wall-indirect-thick-4', 'floor-direct-thick-3', 'floor-indirect-thick-3',
+                             'floorb-direct-thick-2', 'floorb-indirect-thick-2','floor-direct-thick-5', 'floor-indirect-thick-5'];
     for (let i = 50; i <= 250; i+=10) {
         for(let j in materialThickArr) {
+            if (i == 50) {
+                const op = new Option();
+                op.value = 0;
+                op.text = 0;
+                document.getElementById(materialThickArr[j]).appendChild(op);
+            }
             const op = new Option();
             op.value = i;
             op.text = i;
@@ -185,7 +191,7 @@ function setInitCombobox(items) {
  * 검토하기 클릭 이벤트
  * */
 function onclickSearch() {
-    if (localeCode != null &&  useCode != null) {
+    if (LOCALE_CODE != null && USE_CODE != null) {
         setInitCombobox();          //콤보박스 셋팅
         setHeatTransCoPointEpi();   //열관류율기준값, 배점, EPI 기준값 셋팅
         setInitValue();             //초기값 셋팅
@@ -203,12 +209,16 @@ function setInitValue() {
     $("#wall-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#wall-direct-thick-1 option:eq(11)').prop("selected", "selected");
     $('#wall-indirect-thick-1 option:eq(11)').prop("selected", "selected");
-    $("#wall-direct-kind-2 option:eq(58)").prop("selected", "selected");
-    $("#wall-indirect-kind-2 option:eq(58)").prop("selected", "selected");
-    $('#wall-direct-thick-2 option:eq(11)').prop("selected", "selected");
-    $('#wall-indirect-thick-2 option:eq(11)').prop("selected", "selected");
+    $("#wall-direct-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#wall-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $('#wall-direct-thick-2 option:eq(1)').prop("selected", "selected");
+    $('#wall-indirect-thick-2 option:eq(1)').prop("selected", "selected");
     $("#wall-direct-kind-3 option:eq(1)").prop("selected", "selected");
     $("#wall-indirect-kind-3 option:eq(1)").prop("selected", "selected");
+    $("#wall-direct-kind-4 option:eq(1)").prop("selected", "selected");
+    $("#wall-indirect-kind-4 option:eq(1)").prop("selected", "selected");
+    $('#wall-direct-thick-4 option:eq(12)').prop("selected", "selected");
+    $('#wall-indirect-thick-4 option:eq(12)').prop("selected", "selected");
     // 창호 default 값
     $('#win-direct-kind-1 option:eq(1)').prop("selected", "selected");
     $('#win-indirect-kind-1 option:eq(1)').prop("selected", "selected");
@@ -217,10 +227,10 @@ function setInitValue() {
     $("#roof-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#roof-direct-thick-1 option:eq(11)').prop("selected", "selected");
     $('#roof-indirect-thick-1 option:eq(11)').prop("selected", "selected");
-    $("#roof-direct-kind-2 option:eq(58)").prop("selected", "selected");
-    $("#roof-indirect-kind-2 option:eq(58)").prop("selected", "selected");
-    $('#roof-direct-thick-2 option:eq(11)').prop("selected", "selected");
-    $('#roof-indirect-thick-2 option:eq(11)').prop("selected", "selected");
+    $("#roof-direct-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#roof-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $('#roof-direct-thick-2 option:eq(12)').prop("selected", "selected");
+    $('#roof-indirect-thick-2 option:eq(12)').prop("selected", "selected");
     $("#roof-direct-kind-3 option:eq(1)").prop("selected", "selected");
     $("#roof-indirect-kind-3 option:eq(1)").prop("selected", "selected");
     // 비난방바닥 default 값
@@ -228,10 +238,10 @@ function setInitValue() {
     $("#floorb-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#floorb-direct-thick-1 option:eq(1)').prop("selected", "selected");
     $('#floorb-indirect-thick-1 option:eq(1)').prop("selected", "selected");
-    $("#floorb-direct-kind-2 option:eq(58)").prop("selected", "selected");
-    $("#floorb-indirect-kind-2 option:eq(58)").prop("selected", "selected");
-    $('#floorb-direct-thick-2 option:eq(11)').prop("selected", "selected");
-    $('#floorb-indirect-thick-2 option:eq(11)').prop("selected", "selected");
+    $("#floorb-direct-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#floorb-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $('#floorb-direct-thick-2 option:eq(12)').prop("selected", "selected");
+    $('#floorb-indirect-thick-2 option:eq(12)').prop("selected", "selected");
     // 난방바닥 default 값
     $('#floor-direct-thick-1 option:eq(3)').prop("selected", "selected");
     $('#floor-indirect-thick-1 option:eq(3)').prop("selected", "selected");
@@ -239,18 +249,18 @@ function setInitValue() {
     $('#floor-indirect-kind-2 option:eq(1)').prop("selected", "selected");
     $('#floor-direct-thick-2 option:eq(1)').prop("selected", "selected");
     $('#floor-indirect-thick-2 option:eq(1)').prop("selected", "selected");
-    $('#floor-direct-kind-3 option:eq(58)').prop("selected", "selected");
-    $('#floor-indirect-kind-3 option:eq(58)').prop("selected", "selected");
-    $('#floor-direct-thick-3 option:eq(11)').prop("selected", "selected");
-    $('#floor-indirect-thick-3 option:eq(11)').prop("selected", "selected");
+    $('#floor-direct-kind-3 option:eq(1)').prop("selected", "selected");
+    $('#floor-indirect-kind-3 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-thick-3 option:eq(12)').prop("selected", "selected");
+    $('#floor-indirect-thick-3 option:eq(12)').prop("selected", "selected");
     $("#floor-direct-kind-4 option:eq(1)").prop("selected", "selected");
     $("#floor-indirect-kind-4 option:eq(1)").prop("selected", "selected");
     $('#floor-direct-thick-4 option:eq(1)').prop("selected", "selected");
     $('#floor-indirect-thick-4 option:eq(1)').prop("selected", "selected");
-    $('#floor-direct-kind-5 option:eq(58)').prop("selected", "selected");
-    $('#floor-indirect-kind-5 option:eq(58)').prop("selected", "selected");
-    $('#floor-direct-thick-5 option:eq(11)').prop("selected", "selected");
-    $('#floor-indirect-thick-5 option:eq(11)').prop("selected", "selected");
+    $('#floor-direct-kind-5 option:eq(1)').prop("selected", "selected");
+    $('#floor-indirect-kind-5 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-thick-5 option:eq(12)').prop("selected", "selected");
+    $('#floor-indirect-thick-5 option:eq(12)').prop("selected", "selected");
 
     // 열관류율, 평균열관류율 셋팅
     const heatArr = ['wall-direct', 'wall-indirect', 'win-direct', 'win-indirect',
@@ -268,7 +278,7 @@ function setInitValue() {
  * 새로고침 클릭 이벤트
  * */
 function onclickRefresh() {
-    if (localeCode != null &&  useCode != null) {
+    if (LOCALE_CODE != null &&  USE_CODE != null) {
       if (confirm("선택한 항목들이 초기값으로 돌아갑니다.\n진행하시겠습니까?")) {
         // 초기데이터 셋팅
         setInitValue();
@@ -364,7 +374,7 @@ function setHeatTransCo(id) {
         //열관류율 출력
         let heatTransCo = calcHeatTransCo(formId[0] + formId[1], heatRes);
         if (heatTransCo > 0) {
-            printTag.innerText = "열관류율 " + heatTransCo;
+            printTag.innerText = heatTransCo;
         }
     }
 
@@ -389,7 +399,7 @@ function setHeatTransCoPointEpi() {;
     // 지역별 열관류율 기준값을 전역변수에 담는다.
     const arr = data[6].heatTransmissionCoefficient;
     for(const i in arr) {
-        if(useCode == arr[i]['useCode'] && localeCode == arr[i]['localeCode']) {
+        if(USE_CODE == arr[i]['useCode'] && LOCALE_CODE == arr[i]['localeCode']) {
             heatTransCoArr = arr[i]['value'];
             break;
         }
@@ -399,14 +409,14 @@ function setHeatTransCoPointEpi() {;
                        'roof-direct-locale', 'roof-indirect-locale', 'floorb-direct-locale', 'floorb-indirect-locale',
                        'floor-direct-locale', 'floor-indirect-locale'];
     for(let i in targetArr) {
-        document.getElementById(targetArr[i]).innerHTML = "기준 "
+        document.getElementById(targetArr[i]).innerText = "부위별 기준\n"
             + (heatTransCoArr[i]).toFixed(3) + " 이하"
             //+ "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>";
     }
     // 지자체별 평균열관류율 기준값을 전역변수에 담는다.
     const meanArr = data[7].MeanHeatTransmissionCoefficient;
     for(const i in meanArr) {
-        if(useCode == arr[i]['useCode'] && localeCode == arr[i]['localeCode']) {
+        if(USE_CODE == arr[i]['useCode'] && LOCALE_CODE == arr[i]['localeCode']) {
             avgHeatTransCoArr = meanArr[i];
             break;
         }
@@ -417,9 +427,11 @@ function setHeatTransCoPointEpi() {;
     let textArr = ['외벽', '지붕', '바닥'];
     for(let i in epiArr) {
         let epi = document.getElementById(epiArr[i]);
-        epi.innerText = "지자체\n" + avgHeatTransCoArr['value'][i] + " 이하"
+
+
+        epi.innerText = " 기준\n" + avgHeatTransCoArr['value'][i] + " 이하"
                        // + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
-        if (localeCode != "6") {        // 제주지역은 배점 표시하지 않음
+        if (LOCALE_CODE != "6") {        // 제주지역은 배점 표시하지 않음
             let point = document.getElementById(pointArr[i]);
             point.innerText = textArr[i] + "배점 " + avgHeatTransCoArr['point'] + "점";
         }
@@ -427,11 +439,11 @@ function setHeatTransCoPointEpi() {;
     // 슬라브상부 열저항최소값 셋팅
     const slabArr = data[11].slabHeatResistance;
     for(let i in slabArr) {
-        if (localeCode == slabArr[i]['localeCode']) {
-            slabHeatResistance[0] = (slabArr[i]['direct']).toFixed(3);
-            slabHeatResistance[1] = (slabArr[i]['indirect']).toFixed(3);
-            document.getElementById('floor-direct-slab').innerText = "슬라브상부 단열기준\n" + slabHeatResistance[0] + " 이상";
-            document.getElementById('floor-indirect-slab').innerText = "슬라브상부 단열기준\n" + slabHeatResistance[1] + " 이상";
+        if (LOCALE_CODE == slabArr[i]['localeCode']) {
+            slabHeatResistanceArr[0] = (slabArr[i]['direct']).toFixed(3);
+            slabHeatResistanceArr[1] = (slabArr[i]['indirect']).toFixed(3);
+            document.getElementById('floor-direct-slab').innerText = "슬라브상부 단열저항값\n" + slabHeatResistanceArr[0] + " W/㎡k 으로";
+            document.getElementById('floor-indirect-slab').innerText = "슬라브상부 단열저항값\n" + slabHeatResistanceArr[1] + " W/㎡k 으로";
             break;
         }
     }
@@ -443,7 +455,7 @@ function setHeatTransCoPointEpi() {;
 */
 function onchangeUse(sel) {
     //전역변수 용도코드 셋팅
-    useCode = sel;
+    USE_CODE = sel;
 };
 
 /**
@@ -475,7 +487,7 @@ function setWidthRatio(id) {
         // 면적값 연산 및 출력
         widthRatio = calcWidthRatio(arr);
         if (isValidNum(widthRatio)) {
-            document.getElementById('wall-width-ratio').innerText = "창면적비 " + widthRatio;
+            document.getElementById('wall-width-ratio').innerText = "(창면적비 " + widthRatio + ")";
         }
     }
 }
@@ -499,7 +511,7 @@ function setAvgHeatTransCo(id) {
     let arr = new Array();
     let avgTrans = 0;
     let text = "";
-    
+
     if (inputId == "wall" || inputId == "win") {                // 외벽평균열관류율
         arr = ["wall-direct-width", "wall-direct-trans", "wall-indirect-width", "wall-indirect-trans",
                "win-direct-width", "win-direct-trans", "win-indirect-width", "win-direct-trans" ]
@@ -548,7 +560,7 @@ function setSatisfyResult(id){
     id = id.split("-")[0] + "-" + id.split("-")[1];
     const resultTag = id + "-result";   // 검토결과를 출력할 p태그 ID
     const transTag = id + "-trans";     // 검토대상인 열관류율
-    const localeValue = ($("#" + id + "-locale").text().replace("기준 ", "")).replace(" 이하", "");
+    const localeValue = ($("#" + id + "-locale").text().replace("부위별 기준", "")).replace(" 이하", "");
     const trans = (document.getElementById(transTag).innerText).replace("열관류율 ", "");
     if (Number(trans) <= Number(localeValue)) {
         document.getElementById(resultTag).innerText = "만족";
@@ -619,14 +631,14 @@ function setSatisfyHeatResistance() {
     }
 
     // 슬라브상부 열저항기준 검토결과 출력
-    if (direct >= slabHeatResistance[0]) {
+    if (direct >= slabHeatResistanceArr[0]) {
        directTag.innerText = "만족";
        directTag.style.color = "#0D47A1";
     } else {
         directTag.innerText = "불만족";
         directTag.style.color = "#C62828";
     }
-    if (indirect >= slabHeatResistance[1]) {
+    if (indirect >= slabHeatResistanceArr[1]) {
         indirectTag.innerText = "만족";
         indirectTag.style.color = "#0D47A1";
     } else {
@@ -770,7 +782,7 @@ $('document').ready(function () {
 
     // 시/도 선택시 구/군 설정
     $("select[name^=sido]").change(function () {
-        localeCode = null;                                       // 지역코드 초기화
+        LOCALE_CODE = null;                                       // 지역코드 초기화
         document.getElementById('locale').value = "";   // 지역구분콤보 초기화
         var idx = $("option", $(this)).index($("option:selected", $(this)));
         var area = "area" + Number(idx - 1);    // 선택지역의 구군 Array
@@ -809,19 +821,19 @@ function setLocaleCode(sido, gugun) {
     if (gugun == undefined) {
         // 중부2 : 인천,대전,세종,충남,전북
         if (sido == 2 || sido == 3 || sido == 8 || sido == 12 || sido == 13) {
-            localeCode = 2;
+            LOCALE_CODE = 2;
         // 중부2(서울,경기) : 서울,경기
         } else if (sido == 1 || sido == 9) {
-            localeCode = 3;
+            LOCALE_CODE = 3;
         // 남부 : 대구,전남
         } else if (sido == 5 || sido == 14) {
-            localeCode = 4;
+            LOCALE_CODE = 4;
         // 남부(부산,광주,울산)
         } else if (sido == 4 || sido == 6 || sido == 7) {
-            localeCode = 5;
+            LOCALE_CODE = 5;
         // 제주
         } else if (sido == 17) {
-            localeCode = 6;
+            LOCALE_CODE = 6;
         }
     // 2 Depth
     } else {
@@ -834,23 +846,23 @@ function setLocaleCode(sido, gugun) {
         if (sido == 9) {
             // 중부1(경기) : 경기도(연천, 포천, 가평, 남양주, 의정부, 양주, 동두천, 파주)
             if(gyunggi.includes(gugun)) {
-                localeCode = 1;
+                LOCALE_CODE = 1;
             // 중부2(서울, 경기) : 경기도(연천, 포천, 가평, 남양주, 의정부, 양주, 동두천, 파주 제외)
             } else {
-                localeCode = 3;
+                LOCALE_CODE = 3;
             }
         } else {
             // 중부1 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척 제외), 충청북도(제천), 경상북도(봉화, 청송)
             if((sido == 10 && !gangwon.includes(gugun)) || (sido == 11 && chungbuk.includes(gugun)) || (sido == 15 && gyungbuk1.includes(gugun))) {
-                localeCode = 0;
+                LOCALE_CODE = 0;
             // 남부 : 경상북도(울진, 영덕, 포항, 경주, 청도, 경산), 경상남도(거창, 함양 제외)
             } else if ((sido == 15 && gyungbuk2.includes(gugun)) || (sido == 16 && !gyungnam.includes(gugun))){
-                localeCode = 4;
+                LOCALE_CODE = 4;
             // 중부2 : 강원도(고성, 속초, 양양, 강릉, 동해, 삼척), 충청북도(제천 제외), 경상북도(봉화, 청송, 울진, 영덕, 포항, 경주, 청도, 경산 제외), 경상남도(거창, 함양)
             } else {
-                localeCode = 2;
+                LOCALE_CODE = 2;
             }
         }
     }
-    document.getElementById('locale').value = localeCode;
+    document.getElementById('locale').value = LOCALE_CODE;
 };

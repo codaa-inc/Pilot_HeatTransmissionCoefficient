@@ -293,7 +293,20 @@ function onclickRefresh() {
 function onchangeCombobox(id) {
     const sel = document.getElementById(id);
     const thick = document.getElementById(id.replace("kind", "thick"));
-
+    
+    // 단열재 구분선 선택시 두께 selectbox toggle
+    const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'wall-direct-kind-4', 'wall-indirect-kind-4',
+                        'roof-direct-kind-2', 'roof-indirect-kind-2', 'floorb-direct-kind-2', 'floorb-indirect-kind-2',
+                        'floor-direct-kind-3', 'floor-indirect-kind-3', 'floor-direct-kind-5', 'floor-indirect-kind-5'];
+    if(materialArr.includes(sel.id)) {
+        if (sel.value == "0") {
+            $('#' + thick.id).val(0);
+            $('#' + thick.id).prop("disabled", true);
+        } else {
+            $('#' + thick.id).prop("disabled", false);
+            $('#' + thick.id).val(150);
+        }
+    }
     // 구조재료 철골, 목 선택시 두께 selectbox toggle
     const structureArr = ['wall-direct-kind-1', 'wall-indirect-kind-1', 'roof-direct-kind-1', 'roof-indirect-kind-1'];
     if(structureArr.includes(sel.id)) {
@@ -301,6 +314,7 @@ function onchangeCombobox(id) {
             $('#' + thick.id).val(0);
             $('#' + thick.id).prop("disabled", true);
         } else {
+            $('#' + thick.id).val(200);
             $('#' + thick.id).prop("disabled", false);
         }
     }
@@ -389,13 +403,18 @@ function setHeatTransCo(id) {
 function setHeatTransCoWin(id) {
     id = id.split("-")[0] + "-" + id.split("-")[1];
     const printTag = document.getElementById(id +"-trans");
-    printTag.innerText = "열관류율 " + Number(document.getElementById(id + "-kind-1").value).toFixed(3);
+    printTag.innerText = roundTo(Number(document.getElementById(id + "-kind-1").value), 3);
 }
 
 /**
 *  지역별 열관류율 기준값, 지자체별 평균열관류율 기준값,배점, 표면열저항값을 셋팅하는 함수
 */
 function setHeatTransCoPointEpi() {;
+    // 평균값 영역을 visible 처리한다.
+    $('#wall-avg-header').css('display', '');
+    $('#roof-avg-header').css('display', '');
+    $('#floor-avg-header').css('display', '');
+
     // 지역별 열관류율 기준값을 전역변수에 담는다.
     const arr = data[6].heatTransmissionCoefficient;
     for(const i in arr) {
@@ -409,8 +428,8 @@ function setHeatTransCoPointEpi() {;
                        'roof-direct-locale', 'roof-indirect-locale', 'floorb-direct-locale', 'floorb-indirect-locale',
                        'floor-direct-locale', 'floor-indirect-locale'];
     for(let i in targetArr) {
-        document.getElementById(targetArr[i]).innerText = "부위별 기준\n"
-            + (heatTransCoArr[i]).toFixed(3) + " 이하"
+        document.getElementById(targetArr[i]).innerText = "[부위별 기준 "
+            + roundTo(heatTransCoArr[i], 3) + " 이하]"
             //+ "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>";
     }
     // 지자체별 평균열관류율 기준값을 전역변수에 담는다.
@@ -421,29 +440,35 @@ function setHeatTransCoPointEpi() {;
             break;
         }
     }
-    // 지자체별 평균열관류율, 배점을 셋팅
+    // 지자체별 배점, 평균열관류율 기준 셋팅
     const epiArr = ['wall-avg-locale', 'roof-avg-locale', 'floor-avg-locale'];
     const pointArr = ['wall-avg-point','roof-avg-point', 'floor-avg-point'];
-    let textArr = ['외벽', '지붕', '바닥'];
+    const textArr = ['외벽', '지붕', '바닥'];
+    const localeArr = ['지자체 기준 ', '법적 기준 '];
     for(let i in epiArr) {
+        // 배점
+        let point = document.getElementById(pointArr[i]);
+        if (LOCALE_CODE != "6") {
+            $('#' + pointArr[i]).css('display', 'inline-block');
+            point.innerText = textArr[i] + " 배점 " + avgHeatTransCoArr['point'] + "점으로";
+        } else {    // 제주지역은 배점 표시하지 않음
+            //point.setAttribute('display', 'none');
+            $('#' + pointArr[i]).css('display', 'none');
+        }
+        // 평균열관류율 기준
         let epi = document.getElementById(epiArr[i]);
-
-
-        epi.innerText = " 기준\n" + avgHeatTransCoArr['value'][i] + " 이하"
-                       // + "&nbsp;<i class=\"icon-copy fa fa-long-arrow-down\" aria-hidden=\"true\"></i>"
-        if (LOCALE_CODE != "6") {        // 제주지역은 배점 표시하지 않음
-            let point = document.getElementById(pointArr[i]);
-            point.innerText = textArr[i] + "배점 " + avgHeatTransCoArr['point'] + "점";
+        if (LOCALE_CODE == 0 || LOCALE_CODE == 2 || LOCALE_CODE == 4) {     // 지자체 기준이 별도 존재하는 경우
+            epi.innerText = localeArr[1] + avgHeatTransCoArr['value'][i];
+        } else {
+            epi.innerText = localeArr[0] + avgHeatTransCoArr['value'][i];
         }
     }
     // 슬라브상부 열저항최소값 셋팅
     const slabArr = data[11].slabHeatResistance;
     for(let i in slabArr) {
         if (LOCALE_CODE == slabArr[i]['localeCode']) {
-            slabHeatResistanceArr[0] = (slabArr[i]['direct']).toFixed(3);
-            slabHeatResistanceArr[1] = (slabArr[i]['indirect']).toFixed(3);
-            document.getElementById('floor-direct-slab').innerText = "슬라브상부 단열저항값\n" + slabHeatResistanceArr[0] + " W/㎡k 으로";
-            document.getElementById('floor-indirect-slab').innerText = "슬라브상부 단열저항값\n" + slabHeatResistanceArr[1] + " W/㎡k 으로";
+            slabHeatResistanceArr[0] = roundTo(slabArr[i]['direct'], 3);
+            slabHeatResistanceArr[1] = roundTo(slabArr[i]['indirect'], 3);
             break;
         }
     }
@@ -510,34 +535,30 @@ function setAvgHeatTransCo(id) {
     let outputId = "";
     let arr = new Array();
     let avgTrans = 0;
-    let text = "";
 
     if (inputId == "wall" || inputId == "win") {                // 외벽평균열관류율
         arr = ["wall-direct-width", "wall-direct-trans", "wall-indirect-width", "wall-indirect-trans",
                "win-direct-width", "win-direct-trans", "win-indirect-width", "win-direct-trans" ]
         outputId = 'wall-avg-trans';
-        text = "외벽평균";
     } else if (inputId == "roof") {                             // 지붕평균열관류율
         arr = ["roof-direct-width", "roof-direct-trans", "roof-indirect-width", "roof-indirect-trans"];
         outputId = 'roof-avg-trans';
-        text = "지붕평균";
     } else if (inputId == "floorb" || inputId == "floor") {     // 바닥평균열관류율
         arr = ["floorb-direct-width", "floorb-direct-trans", "floorb-indirect-width", "floorb-indirect-trans",
                "floor-direct-width", "floor-direct-trans", "floor-indirect-width", "floor-direct-trans" ]
         outputId = 'floor-avg-trans';
-        text = "바닥평균";
     }
 
     for(const i in arr) {
         if (i % 2 == 1) {   //열관류율값 추출
-            arr[i] = Number(setValidNum((document.getElementById(arr[i]).innerText).replace("열관류율 ", "")));
+            arr[i] = Number(setValidNum(document.getElementById(arr[i]).innerText));
         } else {            //면적값 추출
             arr[i] = Number(setValidNum(document.getElementById(arr[i]).value));
         }
     }
     avgTrans = calcAvgHeatTransCo(inputId, arr); // 평균열관류율 연산
     if (avgTrans > 0) {
-        document.getElementById(outputId).innerText = text +  "열관류율 " + avgTrans;
+        document.getElementById(outputId).innerText = avgTrans;
     }
 
     // 열관류율 검토결과 출력
@@ -560,8 +581,9 @@ function setSatisfyResult(id){
     id = id.split("-")[0] + "-" + id.split("-")[1];
     const resultTag = id + "-result";   // 검토결과를 출력할 p태그 ID
     const transTag = id + "-trans";     // 검토대상인 열관류율
-    const localeValue = ($("#" + id + "-locale").text().replace("부위별 기준", "")).replace(" 이하", "");
-    const trans = (document.getElementById(transTag).innerText).replace("열관류율 ", "");
+    const localeValue = ($("#" + id + "-locale").text().replace("[부위별 기준", "")).replace(" 이하]", "");
+    const trans = document.getElementById(transTag).innerText;
+    $("#" + id + '-header').css("visibility", "visible");
     if (Number(trans) <= Number(localeValue)) {
         document.getElementById(resultTag).innerText = "만족";
         document.getElementById(resultTag).style.color = "#0D47A1";
@@ -582,22 +604,17 @@ function setSatisfyAvgResult(id){
     const resultId = part + '-avg-result';
     // 해당 부위의 평균열관류율 기준 ID
     const transId = part + '-avg-trans';
-    // 해당 부위의 평균열관류율 값
-    let text = "";
     // 평균열관류율 기준값
     let avgHeat = 0;
     if(part == 'wall') {
         avgHeat = avgHeatTransCoArr['value'][0];
-        text = "외벽평균열관류율";
     } else if (part == 'roof') {
         avgHeat = avgHeatTransCoArr['value'][1];
-        text = "지붕평균열관류율";
     } else if (part == 'floor') {
         avgHeat = avgHeatTransCoArr['value'][2];
-        text = "바닥평균열관류율";
     }
     // 해당 부위의 평균열관류율 값
-    const trans = (document.getElementById(transId).innerText).replace(text, "");
+    const trans = document.getElementById(transId).innerText;
     // 평균열관류율 검토결과 출력
     if (Number(trans) <= Number(avgHeat)) {
         document.getElementById(resultId).innerText = "만족";
@@ -612,8 +629,10 @@ function setSatisfyAvgResult(id){
  * 슬라브상부 단열기준 검토결과를 셋팅하는 함수
  * */
 function setSatisfyHeatResistance() {
+    // 바닥재료
     const materialArr = ['floor-direct-kind-1', 'floor-direct-kind-2', 'floor-direct-kind-3',
                        'floor-indirect-kind-1', 'floor-indirect-kind-2', 'floor-indirect-kind-3'];
+    // 바닥두께
     const thickArr = ['floor-direct-thick-1', 'floor-direct-thick-2', 'floor-direct-thick-3',
                       'floor-indirect-thick-1', 'floor-indirect-thick-2', 'floor-indirect-thick-3'];
     const directTag = document.getElementById('floor-direct-slab-result');
@@ -629,6 +648,12 @@ function setSatisfyHeatResistance() {
             indirect += Number(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value));
         }
     }
+
+    // 슬라브상부 열저항기준 및 수치 출력
+    document.getElementById('floor-direct-slab').innerText = "슬라브상부 단열저항값\n" + direct + " W/㎡k 으로\n"
+                                                                      + slabHeatResistanceArr[0] + " W/㎡k 이상";
+    document.getElementById('floor-indirect-slab').innerText = "슬라브상부 단열저항값\n" + indirect + " W/㎡k 으로\n"
+                                                                      + slabHeatResistanceArr[1] +  "W/㎡k 이상";
 
     // 슬라브상부 열저항기준 검토결과 출력
     if (direct >= slabHeatResistanceArr[0]) {
@@ -745,7 +770,7 @@ function roundTo(number, digits) {
     }
     let multiplicator = Math.pow(10, digits);
     number = parseFloat((number * multiplicator).toFixed(11));
-    return Math.round(number) / multiplicator;
+    return (Math.round(number) / multiplicator).toFixed(digits);
 }
 
 /***************************************************************************

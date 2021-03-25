@@ -5761,7 +5761,8 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 .clearfix::after {
   display: block;
   clear: both;
-  content: ""; }
+  content: "";
+}
 
 .d-none {
   display: none !important; }

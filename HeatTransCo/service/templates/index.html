@@ -93,27 +93,23 @@
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
                         <div class="col-md-2 col-sm-6" style="display : inline-block;">
                             <p class="text h5" style="text-align: left;">외벽(직접)</p>
-                            <p style="display: inline-block; font-size: smaller">면적</p>
-                            <input id="wall-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px; display: inline-block;" type="number" value="75">
-                            <p style="display: inline-block; font-size: smaller">㎡</p>
                         </div>
-                        <div class="col-md-4 col-sm-6" style="display : inline-block;">
-                            <p style="display: inline-block;">적용 열관류율 </p>
-                            <p style="display: inline-block; font-weight: bolder" id="wall-direct-trans"></p>
-                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
-                            <p id="wall-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                        <div id="wall-direct-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                                <p style="display: inline-block;">적용 열관류율 </p>
+                                <p style="display: inline-block; font-weight: bolder" id="wall-direct-trans"></p>
+                                <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                                <p id="wall-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                                <p id="wall-direct-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
                         <div class="col-md-2 col-sm-6" style="display : inline-block;">
                             <p class="text h5" style="text-align: left;">외벽(간접)</p>
-                            <p style="display: inline-block; font-size: smaller">면적</p>
-                            <input id="wall-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px; display: inline-block;" type="number" value="75">
-                            <p style="display: inline-block; font-size: smaller">㎡</p>
                         </div>
-                        <div class="col-md-4 col-sm-6" style="display : inline-block;">
+                        <div id="wall-indirect-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
                             <p style="display: inline-block;">적용 열관류율 </p>
                             <p style="display: inline-block; font-weight: bolder" id="wall-indirect-trans"></p>
                             <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
                             <p id="wall-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                            <p id="wall-indirect-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
                     </div>
                     <form name="wall" style="margin-top: 20px;">
@@ -140,7 +136,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="wall-direct-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="wall-direct-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="75">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -164,7 +162,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="wall-indirect-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="wall-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -178,7 +178,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-direct-thick-4"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -195,7 +195,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-indirect-thick-4"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -246,7 +246,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-direct-thick-2"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="wall-indirect-thick-2"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -276,29 +276,25 @@
                 <!-- Start of 창호 form  -->
                 <div>
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">창호(직접)</p>
-                            <input id="win-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="25">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">창호(직접)</p>
                         </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="win-direct-trans"></p>
+                        <div id="win-direct-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                                <p style="display: inline-block;">적용 열관류율 </p>
+                                <p style="display: inline-block; font-weight: bolder" id="win-direct-trans"></p>
+                                <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                                <p id="win-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                                <p id="win-direct-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="win-direct-result" style="font-weight: bold; font-size: large;"></p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">창호(간접)</p>
                         </div>
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <h5 class="text h5" style="display: inline-block;">창호(간접)</h5>
-                            <input id="win-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="win-indirect-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="win-indirect-result" style="font-weight: bold; font-size: large;"></p>
+                        <div id="win-indirect-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                            <p style="display: inline-block;">적용 열관류율 </p>
+                            <p style="display: inline-block; font-weight: bolder" id="win-indirect-trans"></p>
+                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                            <p id="win-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                            <p id="win-indirect-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
                     </div>
                     <form name="win" style="margin-top: 20px;">
@@ -312,7 +308,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="win-direct-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="win-direct-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="25">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
@@ -323,36 +321,25 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="win-indirect-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="win-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                         </div>
                     </form>
                 </div>
                 <!-- End of 창호 form  -->
                 <!-- Start of 외벽평균열관류율-->
-                <div>
-                    <div class="clearfix" style="background-color : #F7DC6F;">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <h5 class="text h5">외벽평균열관류율</h5>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="wall-width-ratio"></p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="wall-avg-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="wall-avg-locale" style="font-size: smaller"></p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="wall-avg-point"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="wall-avg-epi"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="wall-avg-result" style="font-weight: bold; font-size: large;"></p>
-                        </div>
+                <div id="wall-avg-header" class="clearfix" style="background-color : #F7DC6F; display: none;">
+                    <div class="col-md-12 col-sm-12" style="display : inline-block; text-align: right; text-align: center">
+                        <h5 class="text h5" style="display: inline-block;">외벽평균열관류율</h5>
+                        <p id="wall-width-ratio" style="display: inline-block;"></p>
+                        <p id="wall-avg-trans" style="display: inline-block; font-weight: bolder"></p>
+                        <p style="display: inline-block">W/㎡k </p>
+                        <p id="wall-avg-point" style="display: inline-block;"></p>
+                        <p id="wall-avg-locale" style="display: inline-block; font-weight: bolder;"></p>
+                        <p style="display: inline-block;">W/㎡k  이하를 </p>
+                        <p id="wall-avg-result" style="font-weight: bold; font-size: large; display: inline-block; margin-right: 5%;"></p>
                     </div>
                 </div>
                 <!-- End of 외벽평균열관류율-->
@@ -363,29 +350,25 @@
             <div class="pd-20 card-box mb-30">
                 <div>
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">최상층지붕(직접)</p>
-                            <input id="roof-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="100">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">최상층지붕(직접)</p>
                         </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="roof-direct-trans"></p>
+                        <div id="roof-direct-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                                <p style="display: inline-block;">적용 열관류율 </p>
+                                <p style="display: inline-block; font-weight: bolder" id="roof-direct-trans"></p>
+                                <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                                <p id="roof-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                                <p id="roof-direct-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="roof-direct-result" style="font-weight: bold; font-size: large;"></p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">최상층지붕(간접)</p>
                         </div>
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">최상층지붕(간접)</p>
-                            <input id="roof-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="roof-indirect-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="roof-indirect-result" style="font-weight: bold; font-size: large;"></p>
+                        <div id="roof-indirect-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                            <p style="display: inline-block;">적용 열관류율 </p>
+                            <p style="display: inline-block; font-weight: bolder" id="roof-indirect-trans"></p>
+                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                            <p id="roof-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                            <p id="roof-indirect-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
                     </div>
                     <form name="roof" style="margin-top: 20px;">
@@ -412,7 +395,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="roof-direct-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="roof-direct-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="100">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -436,7 +421,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="roof-indirect-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="roof-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -484,7 +471,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="roof-direct-thick-2"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -501,7 +488,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="roof-indirect-thick-2"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -510,29 +497,15 @@
                     </form>
                 </div>
                 <!-- Start of 지붕평균열관류율-->
-                <div>
-                    <div class="clearfix" style="background-color : #F7DC6F;">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <h5 class="text h5">지붕평균열관류율</h5>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="roof-width-ratio"></p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="roof-avg-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="roof-avg-locale" style="font-size: smaller"></p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="roof-avg-point"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="roof-avg-epi"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="roof-avg-result" style="font-weight: bold; font-size: large;"></p>
-                        </div>
+                <div id="roof-avg-header" class="clearfix" style="background-color : #F7DC6F; display: none;">
+                    <div class="col-md-12 col-sm-12" style="display : inline-block; text-align: right; text-align: center">
+                        <h5 class="text h5" style="display: inline-block;">지붕평균열관류율</h5>
+                        <p id="roof-avg-trans" style="display: inline-block; font-weight: bolder"></p>
+                        <p style="display: inline-block">W/㎡k </p>
+                        <p id="roof-avg-point" style="display: inline-block;"></p>
+                        <p id="roof-avg-locale" style="display: inline-block; font-weight: bolder;"></p>
+                        <p style="display: inline-block;">W/㎡k  이하를 </p>
+                        <p id="roof-avg-result" style="font-weight: bold; font-size: large; display: inline-block; margin-right: 5%;"></p>
                     </div>
                 </div>
                 <!-- End of 지붕평균열관류율-->
@@ -544,29 +517,25 @@
                 <!-- Start of 최하층 비난방바닥 form -->
                 <div>
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">최하층바닥(직접)</p>
-                            <input id="floorb-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="100">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">최하층바닥(직접)</p>
                         </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="floorb-direct-trans"></p>
+                        <div id="floorb-direct-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                                <p style="display: inline-block;">적용 열관류율 </p>
+                                <p style="display: inline-block; font-weight: bolder" id="floorb-direct-trans"></p>
+                                <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                                <p id="floorb-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                                <p id="floorb-direct-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="floorb-direct-result" style="font-weight: bold; font-size: large;"></p>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+                            <p class="text h5" style="text-align: left;">최하층바닥(간접)</p>
                         </div>
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block;">최하층바닥(간접)</p>
-                            <input id="floorb-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="floorb-indirect-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="floorb-indirect-result" style="font-weight: bold; font-size: large;"></p>
+                        <div id="floorb-indirect-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+                            <p style="display: inline-block;">적용 열관류율 </p>
+                            <p style="display: inline-block; font-weight: bolder" id="floorb-indirect-trans"></p>
+                            <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+                            <p id="floorb-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+                            <p id="floorb-indirect-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
                         </div>
                     </div>
                     <form name="floorb" style="margin-top: 20px;">
@@ -588,7 +557,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floorb-direct-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="floorb-direct-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="100">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -607,7 +578,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floorb-indirect-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="floorb-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -620,7 +593,7 @@
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floorb-direct-thick-2" onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -637,7 +610,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="floorb-indirect-thick-2"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -650,30 +623,26 @@
                 <!-- Start of 최하층 바닥난방 form  -->
                 <div>
                     <div class="clearfix" style="background: linear-gradient(90deg, #7FB3D5 50%, #7DCEA0 50%);">
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block; text-align: left;">최하층바닥<br>(직접,바닥난방)</p>
-                            <input id="floor-direct-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="floor-direct-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="floor-direct-result" style="font-weight: bold; font-size: large;"></p>
-                        </div>
-                        <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                            <p class="text h5" style="display: inline-block; text-align: left;">최하층바닥<br>(간접,바닥난방)</p>
-                            <input id="floor-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60px;" type="number"
-                                   value="0">
-                            <p style="display: inline-block; width: 10px;">㎡</p>
-                        </div>
-                        <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                            <p id="floor-indirect-trans"></p>
-                        </div>
-                        <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                            <p id="floor-indirect-result" style="font-weight: bold; font-size: large;"></p>
-                        </div>
+                        <div class="col-md-2 col-sm-6" style="display : inline-block;">
+						    <p class="text h5" style="text-align: left;">최하층바닥<br>(직접,바닥난방)</p>
+						</div>
+						<div id="floor-direct-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+						        <p style="display: inline-block;">적용 열관류율 </p>
+						        <p style="display: inline-block; font-weight: bolder" id="floor-direct-trans"></p>
+						        <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+						        <p id="floor-direct-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+						        <p id="floor-direct-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
+						</div>
+						<div class="col-md-2 col-sm-6" style="display : inline-block;">
+						    <p class="text h5" style="text-align: left;">최하층바닥<br>(간접,바닥난방)</p>
+						</div>
+						<div id="floor-indirect-header" class="col-md-4 col-sm-6" style="display : inline-block; visibility: hidden;">
+						    <p style="display: inline-block;">적용 열관류율 </p>
+						    <p style="display: inline-block; font-weight: bolder" id="floor-indirect-trans"></p>
+						    <p style="display: inline-block;"> W/㎡k로 법적 기준</p>
+						    <p id="floor-indirect-result" style=" display: inline-block;font-weight: bold; font-size: large;"></p>
+						    <p id="floor-indirect-locale" style="text-align: right; font-size: smaller; margin-right: 10%;"></p>
+						</div>
                     </div>
                     <form name="floor" style="margin-top: 20px;">
                         <div class="row">
@@ -693,7 +662,9 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floor-direct-locale"></p>
+                                <p style="display: inline-block; font-size: smaller">면적</p>
+                                <input class="form-control" id="floor-direct-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+                                <p style="display: inline-block; font-size: smaller">㎡</p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -711,8 +682,10 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floor-indirect-locale"></p>
-                            </div>
+							    <p style="display: inline-block; font-size: smaller">면적</p>
+							    <input class="form-control" id="floor-indirect-width" onchange="onchangeWidth(this.id)" style="width: 60%; display: inline-block;" type="number" value="0">
+							    <p style="display: inline-block; font-size: smaller">㎡</p>
+							</div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-direct-kind-2"
@@ -764,7 +737,8 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floor-direct-slab" style="font-size: smaller"></p>
+                                <p id="floor-direct-slab" style="font-size: smaller;"></p>
+                                <p id="floor-direct-slab-result" style="font-size: smaller; font-weight: bold;"></p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -783,7 +757,8 @@
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                                <p id="floor-indirect-slab" style="font-size: smaller"></p>
+                                <p id="floor-indirect-slab" style="font-size: smaller;"></p>
+                                <p id="floor-indirect-slab-result" style="font-size: smaller; font-weight: bold;"></p>
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
@@ -801,9 +776,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="floor-direct-slab-result" style="font-weight: bold"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-indirect-kind-4" disabled>
@@ -820,9 +793,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
-                                <p id="floor-indirect-slab-result" style="font-weight: bold"></p>
-                            </div>
+                            <div class="col-md-2 col-sm-12"></div>
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-direct-kind-5"
@@ -835,7 +806,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-direct-thick-5"
                                             onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -852,7 +823,7 @@
                                 <div class="form-group">
                                     <select class="custom-select" id="floor-indirect-thick-5"
                                         onchange="onchangeCombobox(this.id)">
-                                        <option disabled hidden selected>단열재 두께</option>
+                                        <option disabled hidden selected value="0">단열재 두께</option>
                                     </select>
                                 </div>
                             </div>
@@ -861,29 +832,15 @@
                         <!-- End of 바닥난방 -->
                     </form>
                     <!-- Start of 바닥평균열관류율-->
-                    <div>
-                        <div class="clearfix" style="background-color : #F7DC6F;">
-                            <div class="col-md-3 col-sm-12" style="display : inline-block;">
-                                <h5 class="text h5">바닥평균열관류율</h5>
-                            </div>
-                            <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                                <p id="floor-width-ratio"></p>
-                            </div>
-                            <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                                <p id="floor-avg-trans"></p>
-                            </div>
-                            <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                                <p id="floor-avg-locale" style="font-size: smaller"></p>
-                            </div>
-                            <div class="col-md-2 col-sm-12" style="display : inline-block;">
-                                <p id="floor-avg-point"></p>
-                            </div>
-                            <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                                <p id="floor-avg-epi"></p>
-                            </div>
-                            <div class="col-md-1 col-sm-12" style="display : inline-block;">
-                                <p id="floor-avg-result" style="font-weight: bold; font-size: large;"></p>
-                            </div>
+                    <div id="floor-avg-header" class="clearfix" style="background-color : #F7DC6F; display: none;">
+                        <div class="col-md-12 col-sm-12" style="display : inline-block; text-align: right; text-align: center">
+                            <h5 class="text h5" style="display: inline-block;">바닥평균열관류율</h5>
+                            <p id="floor-avg-trans" style="display: inline-block; font-weight: bolder"></p>
+                            <p style="display: inline-block">W/㎡k </p>
+                            <p id="floor-avg-point" style="display: inline-block;"></p>
+                            <p id="floor-avg-locale" style="display: inline-block; font-weight: bolder;"></p>
+                            <p style="display: inline-block;">W/㎡k  이하를 </p>
+                            <p id="floor-avg-result" style="font-weight: bold; font-size: large; display: inline-block; margin-right: 5%;"></p>
                         </div>
                     </div>
                     <!-- End of 바닥평균열관류율-->

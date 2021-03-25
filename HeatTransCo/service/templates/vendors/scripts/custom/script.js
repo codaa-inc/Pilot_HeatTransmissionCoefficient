@@ -209,14 +209,14 @@ function setInitValue() {
     $("#wall-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#wall-direct-thick-1 option:eq(11)').prop("selected", "selected");
     $('#wall-indirect-thick-1 option:eq(11)').prop("selected", "selected");
-    $("#wall-direct-kind-2 option:eq(1)").prop("selected", "selected");
-    $("#wall-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#wall-direct-kind-2 option:eq(3)").prop("selected", "selected");
+    $("#wall-indirect-kind-2 option:eq(3)").prop("selected", "selected");
     $('#wall-direct-thick-2 option:eq(1)').prop("selected", "selected");
     $('#wall-indirect-thick-2 option:eq(1)').prop("selected", "selected");
     $("#wall-direct-kind-3 option:eq(1)").prop("selected", "selected");
     $("#wall-indirect-kind-3 option:eq(1)").prop("selected", "selected");
-    $("#wall-direct-kind-4 option:eq(1)").prop("selected", "selected");
-    $("#wall-indirect-kind-4 option:eq(1)").prop("selected", "selected");
+    $("#wall-direct-kind-4 option:eq(3)").prop("selected", "selected");
+    $("#wall-indirect-kind-4 option:eq(3)").prop("selected", "selected");
     $('#wall-direct-thick-4 option:eq(12)').prop("selected", "selected");
     $('#wall-indirect-thick-4 option:eq(12)').prop("selected", "selected");
     // 창호 default 값
@@ -227,8 +227,8 @@ function setInitValue() {
     $("#roof-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#roof-direct-thick-1 option:eq(11)').prop("selected", "selected");
     $('#roof-indirect-thick-1 option:eq(11)').prop("selected", "selected");
-    $("#roof-direct-kind-2 option:eq(1)").prop("selected", "selected");
-    $("#roof-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#roof-direct-kind-2 option:eq(3)").prop("selected", "selected");
+    $("#roof-indirect-kind-2 option:eq(3)").prop("selected", "selected");
     $('#roof-direct-thick-2 option:eq(12)').prop("selected", "selected");
     $('#roof-indirect-thick-2 option:eq(12)').prop("selected", "selected");
     $("#roof-direct-kind-3 option:eq(1)").prop("selected", "selected");
@@ -238,8 +238,8 @@ function setInitValue() {
     $("#floorb-indirect-kind-1 option:eq(1)").prop("selected", "selected");
     $('#floorb-direct-thick-1 option:eq(1)').prop("selected", "selected");
     $('#floorb-indirect-thick-1 option:eq(1)').prop("selected", "selected");
-    $("#floorb-direct-kind-2 option:eq(1)").prop("selected", "selected");
-    $("#floorb-indirect-kind-2 option:eq(1)").prop("selected", "selected");
+    $("#floorb-direct-kind-2 option:eq(3)").prop("selected", "selected");
+    $("#floorb-indirect-kind-2 option:eq(3)").prop("selected", "selected");
     $('#floorb-direct-thick-2 option:eq(12)').prop("selected", "selected");
     $('#floorb-indirect-thick-2 option:eq(12)').prop("selected", "selected");
     // 난방바닥 default 값
@@ -249,16 +249,16 @@ function setInitValue() {
     $('#floor-indirect-kind-2 option:eq(1)').prop("selected", "selected");
     $('#floor-direct-thick-2 option:eq(1)').prop("selected", "selected");
     $('#floor-indirect-thick-2 option:eq(1)').prop("selected", "selected");
-    $('#floor-direct-kind-3 option:eq(1)').prop("selected", "selected");
-    $('#floor-indirect-kind-3 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-kind-3 option:eq(3)').prop("selected", "selected");
+    $('#floor-indirect-kind-3 option:eq(3)').prop("selected", "selected");
     $('#floor-direct-thick-3 option:eq(12)').prop("selected", "selected");
     $('#floor-indirect-thick-3 option:eq(12)').prop("selected", "selected");
     $("#floor-direct-kind-4 option:eq(1)").prop("selected", "selected");
     $("#floor-indirect-kind-4 option:eq(1)").prop("selected", "selected");
     $('#floor-direct-thick-4 option:eq(1)').prop("selected", "selected");
     $('#floor-indirect-thick-4 option:eq(1)').prop("selected", "selected");
-    $('#floor-direct-kind-5 option:eq(1)').prop("selected", "selected");
-    $('#floor-indirect-kind-5 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-kind-5 option:eq(3)').prop("selected", "selected");
+    $('#floor-indirect-kind-5 option:eq(3)').prop("selected", "selected");
     $('#floor-direct-thick-5 option:eq(12)').prop("selected", "selected");
     $('#floor-indirect-thick-5 option:eq(12)').prop("selected", "selected");
 
@@ -293,7 +293,12 @@ function onclickRefresh() {
 function onchangeCombobox(id) {
     const sel = document.getElementById(id);
     const thick = document.getElementById(id.replace("kind", "thick"));
-    
+
+    // 재료 변경시 최적의 두께를 탐색하기 위해 최초 두께를 0으로 바꿔준다.
+    if (id.split('-')[0] != "win" && id.split('-')[2] == "kind") {
+        $('#' + thick.id).val(0);
+    }
+
     // 단열재 구분선 선택시 두께 selectbox toggle
     const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'wall-direct-kind-4', 'wall-indirect-kind-4',
                         'roof-direct-kind-2', 'roof-indirect-kind-2', 'floorb-direct-kind-2', 'floorb-indirect-kind-2',
@@ -304,7 +309,6 @@ function onchangeCombobox(id) {
             $('#' + thick.id).prop("disabled", true);
         } else {
             $('#' + thick.id).prop("disabled", false);
-            $('#' + thick.id).val(150);
         }
     }
     // 구조재료 철골, 목 선택시 두께 selectbox toggle
@@ -314,7 +318,6 @@ function onchangeCombobox(id) {
             $('#' + thick.id).val(0);
             $('#' + thick.id).prop("disabled", true);
         } else {
-            $('#' + thick.id).val(200);
             $('#' + thick.id).prop("disabled", false);
         }
     }
@@ -366,8 +369,7 @@ function onchangeCombobox(id) {
 */
 function setHeatTransCo(id) {
     const formId = id.split("-");
-     //창호는 열저항 계산하지 않음
-    if (formId[0] == "win") {
+    if (formId[0] == "win") {       //창호는 열저항 계산하지 않음
         setHeatTransCoWin(id);
     } else {
         //접근할 form 객체(wall, win,...)
@@ -380,9 +382,9 @@ function setHeatTransCo(id) {
         let heatRes = 0;
         //재료 열저항값 연산
         for(let i = 0; i < selTag.length; i+=2) {
-            const flag = ((selTag[i].id).split("-"))[1]; // 직접 or 간접
+            const flag = ((selTag[i].id).split("-"))[1]; //직접 or 간접
             if (flag == formId[1]) {
-                heatRes += Number(calcHeatResistance(selTag[i].value, selTag[i+1].value));  // 재료(열전도율) 선택값, 두께 선택값
+                heatRes += Number(calcHeatResistance(selTag[i].value, selTag[i+1].value));  //재료(열전도율) 선택값, 두께 선택값
             }
         }
         //열관류율 출력
@@ -452,7 +454,6 @@ function setHeatTransCoPointEpi() {;
             $('#' + pointArr[i]).css('display', 'inline-block');
             point.innerText = textArr[i] + " 배점 " + avgHeatTransCoArr['point'] + "점으로";
         } else {    // 제주지역은 배점 표시하지 않음
-            //point.setAttribute('display', 'none');
             $('#' + pointArr[i]).css('display', 'none');
         }
         // 평균열관류율 기준
@@ -578,18 +579,38 @@ function setAvgHeatTransCo(id) {
  * Param : 대상 부위의 ID
  * */
 function setSatisfyResult(id){
-    id = id.split("-")[0] + "-" + id.split("-")[1];
-    const resultTag = id + "-result";   // 검토결과를 출력할 p태그 ID
-    const transTag = id + "-trans";     // 검토대상인 열관류율
-    const localeValue = ($("#" + id + "-locale").text().replace("[부위별 기준", "")).replace(" 이하]", "");
-    const trans = document.getElementById(transTag).innerText;
-    $("#" + id + '-header').css("visibility", "visible");
+    const part = id.split("-")[0] + "-" + id.split("-")[1];   // 부위값
+    // 헤더 영역을 표시함 (hidden 상태에서 선택자가 안 먹히기 때문에 순서 바꾸면 X)
+    $("#" + part + '-header').css("visibility", "visible");
+    const resultTag = part + "-result";   // 검토결과를 출력할 p태그 ID
+    const trans = document.getElementById(part + "-trans").innerText;
+    const localeValue = ($("#" + part + "-locale").text().replace("[부위별 기준", "")).replace(" 이하]", "");
+
     if (Number(trans) <= Number(localeValue)) {
         document.getElementById(resultTag).innerText = "만족";
         document.getElementById(resultTag).style.color = "#0D47A1";
     } else {
-        document.getElementById(resultTag).innerText = "불만족";
-        document.getElementById(resultTag).style.color = "#C62828";
+        const thickId = id.replace("kind", "thick");
+        const idDisabled = $("#" + thickId).attr("disabled");
+        if (id.split('-')[2] == "kind" && id.split('-')[0] != "win" && idDisabled != "disabled") {
+            setOptimalThick(thickId);    // 재료를 변경한 경우 기준을 만족하는 최적의 두께를 찾음
+        } else {
+            document.getElementById(resultTag).innerText = "불만족";
+            document.getElementById(resultTag).style.color = "#C62828";
+        }
+    }
+};
+
+/**
+ * 재료 변경시 기준을 만족하는 최적의 두께를 셋팅해주는 함수
+ * Param : 변경한 재료값의 두께 ID
+ * Return : setHeatTransCo()를 재귀호출한다.
+ * */
+function setOptimalThick(thickId) {
+    const thickIdx = Number($("#" + thickId + " option").index( $("#" + thickId +" option:selected"))) + 1;
+    if (thickIdx <= document.getElementById(thickId).length); {
+        $('#' + thickId + ' option:eq(' + thickIdx + ')').prop("selected", "selected");
+        setHeatTransCo(thickId.replace("thick", "kind"));
     }
 };
 

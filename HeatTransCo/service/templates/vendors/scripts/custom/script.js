@@ -117,7 +117,7 @@ function setInitCombobox(items) {
      * 바닥난방두께 : 30~50까지 5단위
      */
     //구조두께
-    for (let i = 100; i <= 300; i+=10) {
+    for (let i = 300; i >= 100; i-=10) {
         const structureThickArr = ['wall-direct-thick-1', 'wall-indirect-thick-1',
                                    'roof-direct-thick-1', 'roof-indirect-thick-1'];
         for(let j in structureThickArr) {
@@ -125,6 +125,12 @@ function setInitCombobox(items) {
             op.value = i;
             op.text = i;
             document.getElementById(structureThickArr[j]).appendChild(op);
+            if (i == 100) {
+                const op = new Option();
+                op.value = 0;
+                op.text = 0;
+                document.getElementById(structureThickArr[j]).appendChild(op);
+            }
         }
     }
 
@@ -132,24 +138,24 @@ function setInitCombobox(items) {
     const materialThickArr = ['wall-direct-thick-2', 'wall-indirect-thick-2', 'roof-direct-thick-2', 'roof-indirect-thick-2',
                              'wall-direct-thick-4', 'wall-indirect-thick-4', 'floor-direct-thick-3', 'floor-indirect-thick-3',
                              'floorb-direct-thick-2', 'floorb-indirect-thick-2','floor-direct-thick-5', 'floor-indirect-thick-5'];
-    for (let i = 50; i <= 250; i+=10) {
+    for (let i = 250; i >= 50; i-=10) {
         for(let j in materialThickArr) {
+            const op = new Option();
+            op.value = i;
+            op.text = i;
+            document.getElementById(materialThickArr[j]).appendChild(op);
             if (i == 50) {
                 const op = new Option();
                 op.value = 0;
                 op.text = 0;
                 document.getElementById(materialThickArr[j]).appendChild(op);
             }
-            const op = new Option();
-            op.value = i;
-            op.text = i;
-            document.getElementById(materialThickArr[j]).appendChild(op);
         }
     }
 
     // 슬라브두께
     const slabArr = ['floorb-direct-thick-1', 'floorb-indirect-thick-1', 'floor-direct-thick-4', 'floor-indirect-thick-4'];
-    for (let i = 150; i <= 250; i+=10) {
+    for (let i = 250; i >= 150; i-=10) {
         for(let j in slabArr) {
             const op = new Option();
             op.value = i;
@@ -160,24 +166,24 @@ function setInitCombobox(items) {
 
    // 기포콘크리트두께
     const concreteThickArr = ['floor-indirect-thick-2', 'floor-direct-thick-2'];
-    for (let i = 25; i <= 100; i+=5) {
+    for (let i = 100; i >= 25; i-=5) {
         for (let j in concreteThickArr) {
+            const op = new Option();
+            op.value = i;
+            op.text = i;
+            document.getElementById(concreteThickArr[j]).appendChild(op);;
             if (i == 25) {
                 const op = new Option();
                 op.value = 0;
                 op.text = 0;
                 document.getElementById(concreteThickArr[j]).appendChild(op);
             }
-            const op = new Option();
-            op.value = i;
-            op.text = i;
-            document.getElementById(concreteThickArr[j]).appendChild(op);
         }
     }
 
     // 바닥난방두께
     const floorThickArr = ['floor-direct-thick-1', 'floor-indirect-thick-1'];
-    for (let i = 30; i <= 50; i+=5) {
+    for (let i = 50; i >= 30; i-=5) {
         for (let j in floorThickArr) {
             const op = new Option();
             op.value = i;
@@ -211,14 +217,14 @@ function setInitValue() {
     $('#wall-indirect-thick-1 option:eq(11)').prop("selected", "selected");
     $("#wall-direct-kind-2 option:eq(3)").prop("selected", "selected");
     $("#wall-indirect-kind-2 option:eq(3)").prop("selected", "selected");
-    $('#wall-direct-thick-2 option:eq(1)').prop("selected", "selected");
-    $('#wall-indirect-thick-2 option:eq(1)').prop("selected", "selected");
+    $('#wall-direct-thick-2 option:eq(22)').prop("selected", "selected");
+    $('#wall-indirect-thick-2 option:eq(22)').prop("selected", "selected");
     $("#wall-direct-kind-3 option:eq(1)").prop("selected", "selected");
     $("#wall-indirect-kind-3 option:eq(1)").prop("selected", "selected");
     $("#wall-direct-kind-4 option:eq(3)").prop("selected", "selected");
     $("#wall-indirect-kind-4 option:eq(3)").prop("selected", "selected");
-    $('#wall-direct-thick-4 option:eq(12)').prop("selected", "selected");
-    $('#wall-indirect-thick-4 option:eq(12)').prop("selected", "selected");
+    $('#wall-direct-thick-4 option:eq(11)').prop("selected", "selected");
+    $('#wall-indirect-thick-4 option:eq(11)').prop("selected", "selected");
     // 창호 default 값
     $('#win-direct-kind-1 option:eq(1)').prop("selected", "selected");
     $('#win-indirect-kind-1 option:eq(1)').prop("selected", "selected");
@@ -229,38 +235,38 @@ function setInitValue() {
     $('#roof-indirect-thick-1 option:eq(11)').prop("selected", "selected");
     $("#roof-direct-kind-2 option:eq(3)").prop("selected", "selected");
     $("#roof-indirect-kind-2 option:eq(3)").prop("selected", "selected");
-    $('#roof-direct-thick-2 option:eq(12)').prop("selected", "selected");
-    $('#roof-indirect-thick-2 option:eq(12)').prop("selected", "selected");
+    $('#roof-direct-thick-2 option:eq(11)').prop("selected", "selected");
+    $('#roof-indirect-thick-2 option:eq(11)').prop("selected", "selected");
     $("#roof-direct-kind-3 option:eq(1)").prop("selected", "selected");
     $("#roof-indirect-kind-3 option:eq(1)").prop("selected", "selected");
     // 비난방바닥 default 값
     $("#floorb-direct-kind-1 option:eq(1)").prop("selected", "selected");
     $("#floorb-indirect-kind-1 option:eq(1)").prop("selected", "selected");
-    $('#floorb-direct-thick-1 option:eq(1)').prop("selected", "selected");
-    $('#floorb-indirect-thick-1 option:eq(1)').prop("selected", "selected");
+    $('#floorb-direct-thick-1 option:eq(11)').prop("selected", "selected");
+    $('#floorb-indirect-thick-1 option:eq(11)').prop("selected", "selected");
     $("#floorb-direct-kind-2 option:eq(3)").prop("selected", "selected");
     $("#floorb-indirect-kind-2 option:eq(3)").prop("selected", "selected");
-    $('#floorb-direct-thick-2 option:eq(12)').prop("selected", "selected");
-    $('#floorb-indirect-thick-2 option:eq(12)').prop("selected", "selected");
+    $('#floorb-direct-thick-2 option:eq(11)').prop("selected", "selected");
+    $('#floorb-indirect-thick-2 option:eq(11)').prop("selected", "selected");
     // 난방바닥 default 값
     $('#floor-direct-thick-1 option:eq(3)').prop("selected", "selected");
     $('#floor-indirect-thick-1 option:eq(3)').prop("selected", "selected");
     $('#floor-direct-kind-2 option:eq(1)').prop("selected", "selected");
     $('#floor-indirect-kind-2 option:eq(1)').prop("selected", "selected");
-    $('#floor-direct-thick-2 option:eq(1)').prop("selected", "selected");
-    $('#floor-indirect-thick-2 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-thick-2 option:eq(17)').prop("selected", "selected");
+    $('#floor-indirect-thick-2 option:eq(17)').prop("selected", "selected");
     $('#floor-direct-kind-3 option:eq(3)').prop("selected", "selected");
     $('#floor-indirect-kind-3 option:eq(3)').prop("selected", "selected");
-    $('#floor-direct-thick-3 option:eq(12)').prop("selected", "selected");
-    $('#floor-indirect-thick-3 option:eq(12)').prop("selected", "selected");
+    $('#floor-direct-thick-3 option:eq(11)').prop("selected", "selected");
+    $('#floor-indirect-thick-3 option:eq(11)').prop("selected", "selected");
     $("#floor-direct-kind-4 option:eq(1)").prop("selected", "selected");
     $("#floor-indirect-kind-4 option:eq(1)").prop("selected", "selected");
-    $('#floor-direct-thick-4 option:eq(1)').prop("selected", "selected");
-    $('#floor-indirect-thick-4 option:eq(1)').prop("selected", "selected");
+    $('#floor-direct-thick-4 option:eq(11)').prop("selected", "selected");
+    $('#floor-indirect-thick-4 option:eq(11)').prop("selected", "selected");
     $('#floor-direct-kind-5 option:eq(3)').prop("selected", "selected");
     $('#floor-indirect-kind-5 option:eq(3)').prop("selected", "selected");
-    $('#floor-direct-thick-5 option:eq(12)').prop("selected", "selected");
-    $('#floor-indirect-thick-5 option:eq(12)').prop("selected", "selected");
+    $('#floor-direct-thick-5 option:eq(11)').prop("selected", "selected");
+    $('#floor-indirect-thick-5 option:eq(11)').prop("selected", "selected");
 
     // 열관류율, 평균열관류율 셋팅
     const heatArr = ['wall-direct', 'wall-indirect', 'win-direct', 'win-indirect',
@@ -294,10 +300,12 @@ function onchangeCombobox(id) {
     const sel = document.getElementById(id);
     const thick = document.getElementById(id.replace("kind", "thick"));
 
-    // 재료 변경시 최적의 두께를 탐색하기 위해 최초 두께를 0으로 바꿔준다.
+    // 재료 변경시 최적의 두께를 탐색하기 위해 두께를 최소로 셋팅한다.
     if (id.split('-')[0] != "win" && id.split('-')[2] == "kind") {
-        $('#' + thick.id).val(0);
+        $("#" + thick.id).val(0);
     }
+
+
 
     // 단열재 구분선 선택시 두께 selectbox toggle
     const materialArr = ['wall-direct-kind-2', 'wall-indirect-kind-2', 'wall-direct-kind-4', 'wall-indirect-kind-4',
@@ -607,8 +615,8 @@ function setSatisfyResult(id){
  * Return : setHeatTransCo()를 재귀호출한다.
  * */
 function setOptimalThick(thickId) {
-    const thickIdx = Number($("#" + thickId + " option").index( $("#" + thickId +" option:selected"))) + 1;
-    if (thickIdx <= document.getElementById(thickId).length); {
+    const thickIdx = Number($("#" + thickId + " option").index( $("#" + thickId +" option:selected"))) - 1;
+    if (thickIdx > -1); {
         $('#' + thickId + ' option:eq(' + thickIdx + ')').prop("selected", "selected");
         setHeatTransCo(thickId.replace("thick", "kind"));
     }
@@ -664,9 +672,9 @@ function setSatisfyHeatResistance() {
     // 슬라브상부 열저항값
     for(let i in materialArr) {
         if (i <= 2) {
-            direct += Number(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value));
+            direct += Number(roundTo(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value), 3));
         } else {
-            indirect += Number(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value));
+            indirect += Number(roundTo(calcHeatResistance(document.getElementById(materialArr[i]).value, document.getElementById(thickArr[i]).value), 3));
         }
     }
 

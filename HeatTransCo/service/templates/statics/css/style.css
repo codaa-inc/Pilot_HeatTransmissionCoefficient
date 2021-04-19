@@ -26,7 +26,7 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
 /*    width: 1300px;*/
     margin: 0 auto;}
 .clear{clear: both}
-.wrap1300{width: 1300px;margin: 0 auto; padding: 40px 0 0 0; }
+.wrap1300{width: 1300px;margin: 0 auto; padding: 40px 0 0 0;}
 .maxwrap1300{max-width: 1300px;margin: 0 auto;}
 
 .con_tit h2{ 
@@ -81,10 +81,11 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
 .con_wrap_ir_li.con_wrap_ir_li_r{border-right: 0}
 .con_wrap_li_tit{padding: 25px 45px;}
 .con_select_wrap{   
-    padding: 10px 40px 40px;
+    padding: 10px 40px 10px 40px;
     border-top: 5px solid #fbfbfb;   
 }
-.con_select_wrap select{   
+.con_select_wrap select{
+    width: 90%;
     border: 0;
     font-weight: 600;
     margin-bottom: 35px;
@@ -93,16 +94,20 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
 .con_select_wrap select:nth-child(5){
     margin-right: 0;
 }
+
 .con_select_wrap2 {
-   font-weight: 500; 
-   margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    flnex-direction: colum;
+    font-weight: 500;
+    margin-bottom: 50px;
 }
 .con_select_wrap2 select:nth-child(5){
     margin-right: 0;
 }
 
 .dis_inb{display: inline-block;margin-left: 10px;}
-.con_wrap_ir2{text-align: right}
+.con_wrap_ir2{text-align: right; padding-top: -35px}
 .con_wrap_ir2 h1{font-size: 17px;padding-right: 25px}
 .con_wrap_ir2 h2{font-size: 17px;color: #2c63bb;text-align: right;font-weight: 800;}
 .con_wrap_ir2 p{font-size: 17px;}
@@ -159,14 +164,13 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     cursor: pointer;
 }
 .con_top .con_top_01{padding-bottom: 30px;box-shadow: 0 5px 5px #fbfbfb;}
-
 .con_top .con_top_02 li{float: left;font-size: 15px;line-height: 1.6;padding-right: 100px;padding: 30px 167px 60px 0}
 .con_top .con_top_02 li:nth-child(3){padding-right:0;text-align: right}
 
 /**/
 .con_bot{margin-bottom: 70px;text-align: right}
 .con_bot p{font-size: 18px;display: inline-block}
-.con_bot p span{font-size: 19px;color: #2c63bb;font-weight: 800;}
+.con_bot span{font-size: 19px;color: #2c63bb;font-weight: 800;}
 .con_bot h6 {
     font-size: 18px;
     color: #fff;
@@ -176,6 +180,20 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     font-weight: bold;
     display: inline-block
 }
+
+.con_bot_red{margin-bottom: 70px;text-align: right}
+.con_bot_red p{font-size: 18px;display: inline-block}
+.con_bot_red span{font-size: 19px;color: #bb594f;font-weight: 800;}
+.con_bot_red h6 {
+    font-size: 18px;
+    color: #fff;
+    background: #d18e88;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    display: inline-block
+}
+
 .con_btn_wrap{text-align: center}
 .con_btn_wrap a{
     font-size: 17px;

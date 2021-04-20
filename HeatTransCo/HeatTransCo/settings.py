@@ -23,10 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '+nmm+s^lx5r+v#p=4@%fmu+s7#!vm@zom0vusz$z&*-v8s^@(p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'ec2-52-78-134-122.ap-northeast-2.compute.amazonaws.com'
+    '52.78.134.122',
+    'architong.com'
+]
 
 # Application definition
 
@@ -106,13 +111,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
+
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
-
+{% load static %}
 <head>
     <!-- Basic Page Info -->
     <meta charset="UTF-8">
     <title>열관류율 계산기</title>
 
     <!-- Site favicon -->
-    <link href="statics/img/favicon.ico" rel="icon" sizes="16x16" type="image/png">
+    <link href="{% static 'img/favicon.ico' %}" rel="icon" sizes="16x16" type="image/png">
 
     <!-- Mobile Specific Metas -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link href="statics/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="statics/css/menu.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'css/menu.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
 
     <!-- jquery 3.2.1 -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- script -->
-    <script src="statics/js/script.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
 <div class="all">
@@ -681,7 +681,7 @@
         <!-- Start of Footer -->
         <footer class="wrap1300">
             <div class="f_info">
-                <img style="width: 230px;" src="statics/img/f_logo.png" alt="">
+                <img style="width: 230px;" src="{% static 'img/f_logo.png' %}" alt="">
                 <p>
                     대표 : 정호건 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     사업자 등록번호 : 185-86-01338 <br>
@@ -698,11 +698,9 @@
             <div class="clear"></div>
 
             <div class="f_sns">
-                <a href="https://www.facebook.com/codaa.kr/" target="_blank"><img src="statics/img/sns01.png"
-                                                                                  alt=""></a>
-                <a href="https://www.instagram.com/codaa.kr" target="_blank"><img src="statics/img/sns02.png"
-                                                                                  alt=""></a>
-                <a href="https://blog.naver.com/codaaxyz" target="_blank"><img src="statics/img/sns03.png" alt=""></a>
+                <a href="https://www.facebook.com/codaa.kr/" target="_blank"><img src="{% static 'img/sns01.png' %}" alt=""></a>
+                <a href="https://www.instagram.com/codaa.kr" target="_blank"><img src="{% static 'img/sns02.png' %}" alt=""></a>
+                <a href="https://blog.naver.com/codaaxyz" target="_blank"><img src="{% static 'img/sns03.png' %}" alt=""></a>
             </div>
 
             <div style="text-align: center;margin-bottom: 25px;">Copyright ⓒ 2021 건축환경그룹 코다 All rights reserved. CODAA

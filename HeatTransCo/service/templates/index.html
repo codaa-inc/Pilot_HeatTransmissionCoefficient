@@ -30,23 +30,25 @@
     <div class="con_top wrap1300">
         <div class="con_top_01">
             <div class="con_top_li">
-                <h2>열관류율 계산기 (KS)</h2>
+                <h2><a href="u_value">열관류율 계산기 (KS)</a></h2>
             </div>
-            <div class="con_top_li con_top_li2">
-                <h3>지역구분</h3>
-                <select id="sido1" name="sido1"></select>
-                <select id="gugun1" name="gugun1" style="display: none"></select>
-                <select id="locale" onchange="onchangeLocale(this.value)" disabled>
-                    <option value="" disabled hidden selected>지역구분</option>
-                </select>
-            </div>
-            <div class="con_top_li con_top_li2 con_top_li3">
-                <h3>용도구분</h3>
-                <select id="use" onchange="onchangeUse(this.value)">
-                    <option disabled hidden selected>용도구분</option>
-                </select>
-                <p onclick="onclickSearch()">검토</p>
-                <span onclick="onclickRefresh()" class="leset">초기화</span>
+            <div class="con_top_li" style="float: right">
+                <div class="con_top_li con_top_li2">
+                    <h3 style="color: #2c63bb">지역구분</h3>
+                    <select id="sido1" name="sido1"></select>
+                    <select id="gugun1" name="gugun1" style="display: none"></select>
+                    <select id="locale" onchange="onchangeLocale(this.value)" disabled>
+                        <option value="" disabled hidden selected>지역구분</option>
+                    </select>
+                </div>
+                <div class="con_top_li con_top_li2 con_top_li3">
+                    <h3 style="color: #2c63bb">용도구분</h3>
+                    <select id="use" onchange="onchangeUse(this.value)">
+                        <option disabled hidden selected>용도구분</option>
+                    </select>
+                    <p><a onclick="onclickSearch()"><img src="{% static 'img/search_icon.png' %}" class="btn_header" style="width: 15px; height: 19px;">검토</a></p>
+                    <p><a onclick="onclickReset()"><img src="{% static 'img/reset_icon.png' %}" class="btn_header" style="width: 18px; height: 18px;">초기화</a></p>
+                </div>
             </div>
         </div>
         <div class="con_top_02">
@@ -79,7 +81,7 @@
     <div class="con_wrap maxwrap1300">
         <!-- Start of External-Wall -->
         <div class="con_tit">
-            <span>*해당 자재의 종류와 두께를 선택해주세요.</span>
+            <span>*&nbsp;자재의 종류와 두께를 선택하면 열관류율이 자동 계산됨</span>
             <h2>
                 <p>외벽평균열관류율</p>
             </h2>
@@ -240,8 +242,10 @@
                             <div class="con_wrap_li_tit">
                                 <h5>창호 (간접)</h5>
                                 <div class="auswjr">
-                                <span> 면적<input id="win-indirect-width" onchange="onchangeWidth(this.id)" type="number"
-                                                value="0">m²</span>
+                                    <span> 면적
+                                        <input id="win-indirect-width" onchange="onchangeWidth(this.id)" type="number"
+                                               value="25">m²
+                                    </span>
                                 </div>
                             </div>
                             <div class="con_select_wrap">
@@ -252,7 +256,7 @@
                                     <h1 class="dis_inb">적용 열관류율</h1>
                                     <h2 id="win-indirect-trans" class="dis_inb"></h2>
                                     <p class="dis_inb">W/m²K로 법적 기준 <br><span id="win-indirect-locale"></span></p>
-                                    <h6 id="win-indirect-result" class="dis_inb">만족</h6>
+                                    <h6 id="win-indirect-result" class="dis_inb"></h6>
                                 </div>
                             </div>
                         </div>
@@ -552,7 +556,7 @@
                         <ul>
                             <li>
                                 <div class="con_select_wrap" style="border-top: 0px !important;">
-                                    <select id="floor-direct-kind-4" disabled>
+                                    <select id="floor-direct-kind-4" style="margin-top: 0px;" disabled>
                                         <option disabled hidden selected>바닥슬라브</option>
                                         <option value="1.6">콘크리트 구조</option>
                                     </select>
@@ -563,7 +567,7 @@
                             </li>
                             <li>
                                 <div class="con_select_wrap" style="border-top: 0px !important;">
-                                    <select id="floor-direct-thick-4" onchange="onchangeCombobox(this.id)">
+                                    <select id="floor-direct-thick-4" onchange="onchangeCombobox(this.id)" style="margin-top: 0px;">
                                         <option disabled hidden selected>슬라브 두께</option>
                                     </select>
                                     <select id="floor-direct-thick-5" onchange="onchangeCombobox(this.id)">
@@ -632,7 +636,7 @@
                         <ul>
                             <li>
                                 <div class="con_select_wrap" style="border-top: 0px !important;">
-                                    <select id="floor-indirect-kind-4" disabled>
+                                    <select id="floor-indirect-kind-4" style="margin-top: 0px;" disabled>
                                         <option disabled hidden selected>바닥슬라브</option>
                                         <option value="1.6">콘크리트 구조</option>
                                     </select>
@@ -643,7 +647,7 @@
                             </li>
                             <li>
                                 <div class="con_select_wrap" style="border-top: 0px !important;">
-                                    <select id="floor-indirect-thick-4" onchange="onchangeCombobox(this.id)">
+                                    <select id="floor-indirect-thick-4" onchange="onchangeCombobox(this.id)" style="margin-top: 0px;">
                                         <option disabled hidden selected>슬라브 두께</option>
                                     </select>
                                     <select id="floor-indirect-thick-5" onchange="onchangeCombobox(this.id)">
@@ -678,36 +682,37 @@
         <!-- End of Floor -->
         <div class="clear"></div>
         <!-- End of Container -->
-        <!-- Start of Footer -->
-        <footer class="wrap1300">
-            <div class="f_info">
-                <img style="width: 230px;" src="{% static 'img/f_logo.png' %}" alt="">
-                <p>
-                    대표 : 정호건 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    사업자 등록번호 : 185-86-01338 <br>
-                    05398 서울특별시 강동구 성내로 6길 42, 201호 (성내동, 중앙빌딩) <br>
-                    F. 02.6956.3372 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    E. codaaxyz@naver.com
-                </p>
-            </div>
-            <div class="f_slogan">
-                <h1>CODAA</h1>
-                <p>WE SHAPE A BETTER WORLD</p>
-                <p><b>LET’S SHAPE TOGETHER</b></p>
-            </div>
-            <div class="clear"></div>
-
-            <div class="f_sns">
-                <a href="https://www.facebook.com/codaa.kr/" target="_blank"><img src="{% static 'img/sns01.png' %}" alt=""></a>
-                <a href="https://www.instagram.com/codaa.kr" target="_blank"><img src="{% static 'img/sns02.png' %}" alt=""></a>
-                <a href="https://blog.naver.com/codaaxyz" target="_blank"><img src="{% static 'img/sns03.png' %}" alt=""></a>
-            </div>
-
-            <div style="text-align: center;margin-bottom: 25px;">Copyright ⓒ 2021 건축환경그룹 코다 All rights reserved. CODAA
-            </div>
-        </footer>
-        <!-- End of Footer -->
     </div>
+    <!-- Start of Footer -->
+    <footer class="wrap1300">
+        <div class="f_info">
+            <p style="font-size: 19px; font-weight: bolder;">
+                <img style="width: 50px; margin-top: -5px;" src="{% static 'img/codaa_logo.png' %}" alt="">&nbsp;코다 주식회사</p>
+            <p>
+                대표 : 정호건 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                사업자 등록번호 : 185-86-01338 <br>
+                05398 서울특별시 강동구 성내로 6길 42, 201호 (성내동, 중앙빌딩) <br>
+                F. 02.6956.3372 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                E. codaaxyz@naver.com
+            </p>
+        </div>
+        <div class="f_slogan">
+            <h1>CODAA</h1>
+            <p>WE SHAPE A BETTER WORLD</p>
+            <p><b>LET’S SHAPE TOGETHER</b></p>
+        </div>
+        <div class="clear"></div>
+
+        <div class="f_sns">
+            <a href="https://www.facebook.com/codaa.kr/" target="_blank"><img src="{% static 'img/sns01.png' %}" alt=""></a>
+            <a href="https://www.instagram.com/codaa.kr" target="_blank"><img src="{% static 'img/sns02.png' %}" alt=""></a>
+            <a href="https://blog.naver.com/codaaxyz" target="_blank"><img src="{% static 'img/sns03.png' %}" alt=""></a>
+        </div>
+
+        <div style="text-align: center;margin-bottom: 25px;">Copyright ⓒ 2021 건축환경그룹 코다 All rights reserved. CODAA
+        </div>
+    </footer>
+    <!-- End of Footer -->
 </div>
 </body>
 </html>

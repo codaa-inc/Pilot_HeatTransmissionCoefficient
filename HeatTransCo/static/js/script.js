@@ -10,6 +10,18 @@ let localeEpiArr = new Array();             // 지자체배점
 let slabHeatResistanceArr = new Array();    // 슬라브상부단열기준
 
 /**
+ * 모바일 분기 (모바일 접속 시 모바일 페이지를 렌더링)
+ * */
+let isMobile = false;                   // 모바일 접속 여부
+let filter = "win16|win32|win64|mac";   // PC 환경
+if (navigator.platform) {
+    isMobile = filter.indexOf(navigator.platform.toLowerCase()) < 0;
+}
+if (isMobile) {
+    window.location.href = "m.u_value";
+}
+
+/**
 * 페이지 로딩 시 JSON 데이터를 호출하는 함수
 */
 fetch('data/').then((response) => response.json()).then((json) => initSet(json));
@@ -200,6 +212,7 @@ function setInitCombobox() {
  * */
 function onclickSearch() {
     if (LOCALE_CODE != null && USE_CODE != null) {
+        $(".maxwrap1300").css("opacity", "1");
         setInitCombobox();          //콤보박스 셋팅
         setHeatTransCoPointEpi();   //열관류율기준값, 배점, EPI 기준값 셋팅
         setInitValue();             //초기값 셋팅
@@ -301,7 +314,7 @@ function setInitValue() {
 /**
  * 새로고침 클릭 이벤트
  * */
-function onclickRefresh() {
+function onclickReset() {
     if (LOCALE_CODE != null &&  USE_CODE != null) {
       if (confirm("선택한 항목들이 초기값으로 돌아갑니다.\n진행하시겠습니까?")) {
         // 초기데이터 셋팅

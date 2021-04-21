@@ -18,7 +18,7 @@ table,th,td{border:none}
 article,aside,details,figcaption,figure,footer,header,menu,nav,section,video{display:block}
 address,caption,em,i{font-style:normal;font-weight:normal}
 iframe,embed,object,video{max-width:100%}
-/* mobile */
+/* mobile.html */
 body{-webkit-text-size-adjust:none;-moz-text-size-adjust:none;-ms-text-size-adjust:none;}
 a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: skew(-0.03deg);}
 
@@ -27,7 +27,7 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     margin: 0 auto;}
 .clear{clear: both}
 .wrap1300{width: 1300px;margin: 0 auto; padding: 40px 0 0 0;}
-.maxwrap1300{max-width: 1300px;margin: 0 auto;}
+.maxwrap1300{max-width: 1300px;margin: 0 auto; opacity: 0.3;}
 
 .con_tit h2{ 
 }
@@ -43,12 +43,13 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     float: right;
     font-size: 15px;
     margin-top: -10px;
-    margin-right: 35px;
+    margin-right: 40px;
 }
 .con_wrap_ir{    
     border-top: 5px solid rgba(78, 118, 189, 0.3);
     border-bottom: 5px solid rgba(78, 118, 189, 0.3);
     margin-bottom: 30px;
+
 }
 .con_wrap_ir li{width: 50%;float: left}
 .con_wrap_ir li h5{ 
@@ -91,6 +92,10 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     margin-bottom: 35px;
     margin-right: 33px
 }
+.con_select_wrap select:nth-child(1) {
+    margin-top: 25px;
+}
+
 .con_select_wrap select:nth-child(5){
     margin-right: 0;
 }
@@ -140,7 +145,7 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
 /*select*/
 .all select{background:url("../img/select_arrow.png") no-repeat 100% 50%/7px auto;padding: 0 20px 0 5px;}
 /*상단*/
-.con_top .con_top_li h2{color: #2c63bb;font-size: 32px;font-weight: 800;margin-right: 120px;}
+.con_top .con_top_li h2{color: #2c63bb;font-size: 32px;font-weight: 800;margin-right: 20px;}
 .con_top .con_top_li{display: inline-block}
 .con_top .con_top_li2{margin-left: 10px;}
 .con_top .con_top_li select{
@@ -163,12 +168,16 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     /* position: absolute; */
     cursor: pointer;
 }
+
+
 .con_top .con_top_01{padding-bottom: 30px;box-shadow: 0 5px 5px #fbfbfb;}
 .con_top .con_top_02 li{float: left;font-size: 15px;line-height: 1.6;padding-right: 100px;padding: 30px 167px 60px 0}
 .con_top .con_top_02 li:nth-child(3){padding-right:0;text-align: right}
 
+.btn_header {margin: 0 10px;}
+
 /**/
-.con_bot{margin-bottom: 70px;text-align: right}
+.con_bot{margin-bottom: 70px; padding-right: 40px; text-align: right}
 .con_bot p{font-size: 18px;display: inline-block}
 .con_bot span{font-size: 19px;color: #2c63bb;font-weight: 800;}
 .con_bot h6 {
@@ -181,7 +190,7 @@ a, p, span, b, h1,h2,h3,h4,h5,h6, input,button,select,textarea,label{transform: 
     display: inline-block
 }
 
-.con_bot_red{margin-bottom: 70px;text-align: right}
+.con_bot_red{margin-bottom: 70px; padding-right: 40px; text-align: right}
 .con_bot_red p{font-size: 18px;display: inline-block}
 .con_bot_red span{font-size: 19px;color: #bb594f;font-weight: 800;}
 .con_bot_red h6 {

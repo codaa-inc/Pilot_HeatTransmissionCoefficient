@@ -46,7 +46,7 @@
                     <select id="use" onchange="onchangeUse(this.value)">
                         <option disabled hidden selected>용도구분</option>
                     </select>
-                    <p><a onclick="onclickSearch()"><img src="{% static 'img/search_icon.png' %}" class="btn_header" style="width: 15px; height: 19px;">검토</a></p>
+                    <p><a onclick="onclickReview()"><img src="{% static 'img/search_icon.png' %}" class="btn_header" style="width: 15px; height: 19px;">검토</a></p>
                     <p><a onclick="onclickReset()"><img src="{% static 'img/reset_icon.png' %}" class="btn_header" style="width: 18px; height: 18px;">초기화</a></p>
                 </div>
             </div>
@@ -244,7 +244,7 @@
                                 <div class="auswjr">
                                     <span> 면적
                                         <input id="win-indirect-width" onchange="onchangeWidth(this.id)" type="number"
-                                               value="25">m²
+                                               value="0">m²
                                     </span>
                                 </div>
                             </div>

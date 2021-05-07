@@ -6,6 +6,7 @@ let LOCALE_CODE = null;                     // 지역코드
 let USE_CODE = null;                        // 용도코드
 let tmp_locale_code = null;                 // 지역코드 임시저장
 let tmp_use_code = null;                    // 용도코드 임시저장
+let isClickReview = true;                   // 검토버튼 클릭 여부
 let heatTransCoArr = new Array();           // 열관류율기준
 let avgHeatTransCoArr = new Array();        // 평균열관류율기준
 let localeEpiArr = new Array();             // 지자체배점
@@ -225,24 +226,42 @@ function setInitCombobox() {
  * 검토하기 클릭 이벤트
  * */
 function onclickReview() {
+    isClickReview = true; // 검토버튼 클릭여부 flag 변경
     if (tmp_locale_code != null && tmp_use_code != null) {
         // 최초검토
         if (LOCALE_CODE == null & USE_CODE == null) {
             // 지역, 용도코드 실제값 셋팅
             LOCALE_CODE = tmp_locale_code;
             USE_CODE = tmp_use_code;
+
             $(".maxwrap1300").css("opacity", "1");  // 본문 음영 초기화
             setInitCombobox();                      // 콤보박스 셋팅
             setHeatTransCoPointEpi();               // 열관류율기준값, 배점, EPI 기준값 셋팅
             setInitValue();                         // 초기값 셋팅
+
         // 재검토 (지역코드 또는 용도코드 변경 후 검토)
         } else if (LOCALE_CODE != tmp_locale_code || USE_CODE != tmp_use_code) {
             // 지역, 용도코드 실제값 셋팅
             LOCALE_CODE = tmp_locale_code;
             USE_CODE = tmp_use_code;
+
             // 변경된 기준 적용
             setHeatTransCoPointEpi();   // 열관류율기준값, 배점, EPI 기준값 셋팅
             executeHeatTransCo();       // 전체 열관류율 함수 호출
+
+            // 최적화 예외처리
+            if(LOCALE_CODE == 0 || LOCALE_CODE == 1 && USE_CODE == 0) {  // 중부1/주거/창호직접
+              setComboSelect("win-direct-kind-1", 5);
+              setHeatTransCo("win-direct-kind-1");
+            } else {
+              setComboSelect("win-direct-kind-1", 1);
+            }
+             if(LOCALE_CODE == 6) {  // 제주/주거·비주거/외벽면적
+                $('#wall-direct-width').val(155);
+            } else {
+                $('#wall-direct-width').val(75);
+            }
+
             // 활성화 되어있는 두께 콤보 추출해 두께를 최적화시킴
             const arr = ['wall', 'roof', 'floorb', 'floor'];
             for(let i in arr) {
@@ -251,7 +270,7 @@ function onclickReview() {
                     let comboId = comboArr[j].id
                     if (comboId.split('-')[2] == "thick" && $('#' + comboId).attr('disabled') != 'disabled' && $('#' + comboId).val() > 0) {
                         $("#" + comboId).val(0);
-                        setOptimalThick(comboId);
+                        setOptimalThick(comboId);   // 부위별 열관류율에 따른 두께 최적화
                     }
                 }
             }
@@ -303,8 +322,13 @@ function setInitValue() {
     setComboSelect("wall-indirect-thick-4", 22);
 
     // 창호 default 값
-    setComboSelect("win-direct-kind-1", 1);
+    if(LOCALE_CODE == 0 || LOCALE_CODE == 1 && USE_CODE == 0) {  // 중부1/주거/창호직접
+      setComboSelect("win-direct-kind-1", 5);
+    } else {
+      setComboSelect("win-direct-kind-1", 1);
+    }
     setComboSelect("win-indirect-kind-1", 1);
+
 
     // 지붕 default 값
     setComboSelect("roof-direct-kind-1", 1);
@@ -350,6 +374,22 @@ function setInitValue() {
     setComboSelect("floor-direct-thick-5", 11);
     setComboSelect("floor-indirect-thick-5", 11);
 
+    // 부위별 면적
+    if(LOCALE_CODE == 6) {      // 제주/주거·비주거/외벽면적 별도선택
+        $('#wall-direct-width').val(155);   
+    } else {
+        $('#wall-direct-width').val(75);
+    }
+    $('#wall-indirect-width').val(0);
+    $('#win-direct-width').val(25);
+    $('#win-indirect-width').val(0);
+    $('#roof-direct-width').val(100);
+    $('#roof-indirect-width').val(0);
+    $('#floorb-direct-width').val(100);
+    $('#floorb-indirect-width').val(0);
+    $('#floor-direct-width').val(0);
+    $('#floor-indirect-width').val(0);
+
     // 전체 열관류율을 셋팅 함수를 호출
     executeHeatTransCo()
 
@@ -388,6 +428,9 @@ function onchangeCombobox(id) {
     if (LOCALE_CODE == null || USE_CODE == null) {
         alert("지역과 용도를 선택하세요.");
     } else {
+        // 콤보 변경에 의한 검토실행이므로 검토버튼클릭여부 flag 변경
+        isClickReview = false;
+
         const sel = document.getElementById(id);
         const thick = document.getElementById(id.replace("kind", "thick"));
 
@@ -483,7 +526,6 @@ function setHeatTransCo(id) {
     } else {
         setHeatTransCoWin(id);  //창호는 열저항 계산하지 않음
     }
-
     // 평균열관류율 셋팅
     setAvgHeatTransCo(id);
 }
@@ -501,7 +543,7 @@ function setHeatTransCoWin(id) {
 /**
 *  지역별 열관류율 기준값, 지자체별 평균열관류율 기준값,배점, 표면열저항값을 셋팅하는 함수
 */
-function setHeatTransCoPointEpi() {;
+function setHeatTransCoPointEpi() {
     // 평균값 영역을 visible 처리한다.
     $('#wall-avg-header').css('display', '');
     $('#roof-avg-header').css('display', '');
@@ -600,7 +642,6 @@ function setWidthRatio(id) {
     const inputId = id.split("-")[0];
     // 면적값이 담긴 태그 배열
     let arr = ["wall-direct-width", "wall-indirect-width", "win-direct-width", "win-indirect-width"];
-
     if (inputId == "wall" || inputId == "win") {    // 외벽창면적비
         //면적값 추출
         let widthRatio = 0;
@@ -659,6 +700,7 @@ function setAvgHeatTransCo(id) {
         document.getElementById(outputId).innerText = avgTrans;
     }
 
+
     // 배점 결과 출력
     setEpiPoint(id, avgTrans);
 
@@ -668,9 +710,9 @@ function setAvgHeatTransCo(id) {
     // 평균열관류율 검토결과 출력
     setSatisfyAvgResult(id);
 
-    // 슬라브상부 단열기준 검토결과 출력
     if (inputId == "floor") {
-        setSatisfyHeatResistance()
+        // 슬라브상부 단열기준 검토결과 출력
+        setSatisfyHeatResistance();
     }
 };
 
@@ -709,9 +751,10 @@ function setSatisfyResult(id){
  * */
 function setOptimalThick(thickId) {
     const thickIdx = Number($("#" + thickId + " option").index( $("#" + thickId +" option:selected"))) - 1;
-    if (thickIdx > -1); {
+    if (thickIdx > 0) {
         // 기준을 만족할 때까지 변경한 재료의 두께를 한 단위씩 증감시킨다.
         setComboSelect(thickId, thickIdx);
+        console.log("thickId: ", thickId, ", thickIdx :", thickIdx)
         setHeatTransCo(thickId.replace("thick", "kind"));
     }
 };
@@ -729,7 +772,6 @@ function setSatisfyAvgResult(id){
     const transId = part + '-avg-trans';
     // 해당 부위의 평균열관류율 값
     const trans = document.getElementById(transId).innerText;
-
     // 평균열관류율 기준값
     let avgHeat = 0;
     if(part == 'wall') {
@@ -739,17 +781,31 @@ function setSatisfyAvgResult(id){
     } else if (part == 'floor') {
         avgHeat = avgHeatTransCoArr['value'][2];
     }
-
     // 평균열관류율 검토결과 출력
     if (Number(trans) <= Number(avgHeat)) {
         document.getElementById(resultId + '-1').innerText = "W/㎡k 이하를 ";
         document.getElementById(resultId).innerText = "만족";
         document.getElementById(resultId).parentElement.className = 'con_bot';
-
     } else {
-        document.getElementById(resultId + '-1').innerText = "W/㎡k ";
-        document.getElementById(resultId).innerText = "미달";
-        document.getElementById(resultId).parentElement.className = 'con_bot_red';
+        if(isClickReview) {     // 검토 클릭시 기준이 만족할 때까지 특정 두께 최적화
+            let thickId = ""
+            switch (part) {
+                case "wall" :
+                    thickId = "wall-direct-thick-4";
+                    break;
+                case "roof" :
+                    thickId = "roof-direct-thick-3";
+                    break;
+                case "floor" :
+                    thickId = "floorb-direct-thick-2";
+                    break;
+            }
+            setOptimalThick(thickId);
+        } else {                // 콤보 변경시 미달을 그대로 출력
+            document.getElementById(resultId + '-1').innerText = "W/㎡k ";
+            document.getElementById(resultId).innerText = "미달";
+            document.getElementById(resultId).parentElement.className = 'con_bot_red';
+        }
     }
 };
 
@@ -845,15 +901,23 @@ function setSatisfyHeatResistance() {
        directTag.innerText = "만족";
        directTag.parentElement.className = 'con_wrap_ir2';
     } else {
-        directTag.innerText = "미달";
-        directTag.parentElement.className = 'con_wrap_ir2 con_wrap_ir2_red';
+        if(isClickReview) {     // 검토 클릭시 슬라브상부 단열저항값을 만족할때까지 특정 두께 조정
+            setOptimalThick("floor-direct-thick-3");
+        } else {                // 콤보 변경시 결과를 그대로 보여줌
+            directTag.innerText = "미달";
+            directTag.parentElement.className = 'con_wrap_ir2 con_wrap_ir2_red';
+        }
     }
     if (indirect >= slabHeatResistanceArr[1]) {
         indirectTag.innerText = "만족";
         indirectTag.parentElement.className = 'con_wrap_ir2';
     } else {
-        indirectTag.innerText = "미달";
-        indirectTag.parentElement.className = 'con_wrap_ir2 con_wrap_ir2_red';
+        if(isClickReview) {      // 검토 클릭시 슬라브상부 단열저항값을 만족할때까지 특정 두께 조정
+            setOptimalThick("floor-indirect-thick-3");
+        } else {                 // 콤보 변경시 결과를 그대로 보여줌
+            indirectTag.innerText = "미달";
+            indirectTag.parentElement.className = 'con_wrap_ir2 con_wrap_ir2_red';
+        }
     }
 };
 
@@ -868,6 +932,7 @@ function calcAvgHeatTransCo(part, arr) {
     let avg = 0;
     if (part == "wall") {
         // 외벽평균열관류율 보정계수 : 외벽 직접 1.0, 외벽 간접 0.7, 창호 직접 1.0, 창호간접 0.8
+        // 75, 0.129, 0, 0.127, 25, 1, 0, 1
         avg =  (arr[0] * arr[1] + arr[4] * arr[5] + (arr[2] * arr[3]) * 0.7 + (arr[6] * arr[7]) * 0.8)
                / (arr[0] + arr[2] + arr[4] + arr[6]);
     } else if (part == "roof") {
